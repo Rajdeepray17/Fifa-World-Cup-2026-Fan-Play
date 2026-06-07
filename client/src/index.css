@@ -1,0 +1,169 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Default Theme (pre-selection: dark gold/platinum) ── */
+:root {
+  --theme-primary: #c4a44a;
+  --theme-secondary: #e8d48b;
+  --theme-accent: #8b6914;
+  --theme-primary-10: rgba(196, 164, 74, 0.15);
+  --theme-secondary-10: rgba(232, 212, 139, 0.15);
+
+  --bg-deep: #0a0a0f;
+  --bg-card: rgba(255, 255, 255, 0.04);
+  --bg-glass: rgba(255, 255, 255, 0.06);
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --text-primary: #f0f0f0;
+  --text-secondary: #a0a0a0;
+}
+
+/* ── Base resets ── */
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-deep);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--bg-deep);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--theme-primary);
+    border-radius: 3px;
+  }
+}
+
+/* ── Utility layers ── */
+@layer components {
+  .glass {
+    background: var(--bg-glass);
+    border: 1px solid var(--border-glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .glass-strong {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--theme-primary), var(--theme-accent));
+    color: #fff;
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    border-radius: 9999px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-family: 'Outfit', sans-serif;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px var(--theme-primary-10);
+  }
+
+  .section-pad {
+    @apply px-4 sm:px-6 lg:px-16 xl:px-24;
+  }
+}
+
+/* ── Loading screen extras ── */
+.loading-ring {
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--theme-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Marquee ── */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 45s linear infinite;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+.marquee-track-reverse {
+  display: flex;
+  width: max-content;
+  animation: marquee-reverse 45s linear infinite;
+}
+.marquee-track-reverse:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* ── Video container ── */
+.video-container {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: #000;
+}
+.video-container video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── Mobile menu overlay ── */
+.mobile-menu-overlay {
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  background: rgba(10, 10, 15, 0.92);
+}
