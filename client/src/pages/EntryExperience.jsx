@@ -71,6 +71,9 @@ export default function EntryExperience() {
 
   return (
     <div className="fixed inset-0 z-[50] bg-black">
+      {/* Preload critical assets to prevent flashing/loading delays */}
+      <img src="/assets/images/FIFA Logo.png" style={{ display: 'none' }} alt="" />
+
       <AnimatePresence mode="wait">
         {/* Phase 1: Loading */}
         {phase === PHASE.LOADING && (
@@ -186,7 +189,11 @@ export default function EntryExperience() {
       </AnimatePresence>
 
       {/* Phase 3: Video (rendered constantly to preload in background, plays on TAP_TO_BEGIN) */}
-      <IntroVideo ref={videoRef} onVideoEnd={handleVideoEnd} />
+      <IntroVideo 
+        ref={videoRef} 
+        onVideoEnd={handleVideoEnd} 
+        isVisible={phase === PHASE.VIDEO || phase === PHASE.CTA || phase === PHASE.MODAL} 
+      />
 
       {/* Skip Intro button (rendered in low opacity in the bottom right corner) */}
       <AnimatePresence>

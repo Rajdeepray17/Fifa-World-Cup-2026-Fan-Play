@@ -9,7 +9,7 @@ import { motion } from 'framer-motion';
  * - Calls `onVideoEnd` when playback finishes.
  * - Audio is NOT muted.
  */
-const IntroVideo = forwardRef(function IntroVideo({ onVideoEnd }, ref) {
+const IntroVideo = forwardRef(function IntroVideo({ onVideoEnd, isVisible = true }, ref) {
   const videoRef = useRef(null);
   const [hasEnded, setHasEnded] = useState(false);
 
@@ -57,7 +57,7 @@ const IntroVideo = forwardRef(function IntroVideo({ onVideoEnd }, ref) {
     <motion.div
       className="video-container"
       initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+      animate={{ opacity: isVisible ? 1 : 0 }}
       transition={{ duration: 0.8 }}
     >
       <video
