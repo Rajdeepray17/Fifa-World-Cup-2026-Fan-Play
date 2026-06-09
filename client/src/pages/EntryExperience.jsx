@@ -185,10 +185,8 @@ export default function EntryExperience() {
         )}
       </AnimatePresence>
 
-      {/* Phase 3: Video (stays rendered to freeze on last frame) */}
-      {(phase === PHASE.VIDEO || phase === PHASE.CTA || phase === PHASE.MODAL) && (
-        <IntroVideo ref={videoRef} onVideoEnd={handleVideoEnd} />
-      )}
+      {/* Phase 3: Video (rendered constantly to preload in background, plays on TAP_TO_BEGIN) */}
+      <IntroVideo ref={videoRef} onVideoEnd={handleVideoEnd} />
 
       {/* Skip Intro button (rendered in low opacity in the bottom right corner) */}
       <AnimatePresence>
