@@ -171,4 +171,224 @@ export const slides = [
       '"To play well is simple, but to play simple football is the hardest thing there is."',
     quoteAuthor: 'Johan Cruyff',
   },
+  {
+    id: 16,
+    title: 'Iniesta\'s Winner',
+    subtitle: 'Andrés Iniesta — 2010 FIFA World Cup Final',
+    image: '/assets/images/Iniesta.jpeg',
+    didYouKnow:
+      'Andrés Iniesta scored the winning goal in the 116th minute against the Netherlands, securing Spain\'s first-ever World Cup. He famously celebrated by revealing a shirt dedicating the goal to his late friend Dani Jarque.',
+    quote:
+      '"I hit it with all my soul and it went in. It was a moment of absolute ecstasy."',
+    quoteAuthor: 'Andrés Iniesta',
+  },
+  {
+    id: 17,
+    title: 'Super Mario',
+    subtitle: 'Mario Götze — 2014 FIFA World Cup Final',
+    image: '/assets/images/Gotze.jpeg',
+    didYouKnow:
+      'Mario Götze became the first substitute to score a World Cup-winning goal. Manager Joachim Löw famously told him before bringing him on: "Show the world you are better than Messi and can decide the World Cup."',
+    quote:
+      '"Show the world you are better than Messi and decide the World Cup."',
+    quoteAuthor: 'Joachim Löw (Germany Manager)',
+  },
+  {
+    id: 18,
+    title: 'The Perfect Goal',
+    subtitle: 'Carlos Alberto — 1970 FIFA World Cup Final',
+    image: '/assets/images/Carlos Alberto.jpeg',
+    didYouKnow:
+      'Carlos Alberto\'s goal in the 1970 Final against Italy involved eight outfield players. It is widely considered one of the greatest team goals in the history of the sport, capping off a 4-1 victory for Brazil.',
+    quote:
+      '"We didn\'t realize how beautiful the goal was until after the game when we saw it on television."',
+    quoteAuthor: 'Carlos Alberto',
+  },
+  {
+    id: 19,
+    title: 'The Save of the Century',
+    subtitle: 'Gordon Banks — 1970 FIFA World Cup Group Stage',
+    image: '/assets/images/Gordon Banks.jpeg',
+    didYouKnow:
+      'Gordon Banks produced what is universally known as the "Save of the Century" to deny Pelé a certain goal. Banks dove low to his right to flick a powerful, downward header up and over the crossbar.',
+    quote:
+      '"I heard Pelé shout \'Goal!\' as he headed it. Even I didn\'t think I could reach it."',
+    quoteAuthor: 'Gordon Banks',
+  },
+  {
+    id: 20,
+    title: 'Gazza\'s Tears',
+    subtitle: 'Paul Gascoigne — 1990 FIFA World Cup Semi-Final',
+    image: '/assets/images/Paul Gascoigne.jpeg',
+    didYouKnow:
+      'Paul Gascoigne burst into tears after receiving a yellow card against West Germany. The card meant he would be suspended for the Final if England won, an iconic moment that captured the emotion of the tournament.',
+    quote:
+      '"When things are good, I want to play football. When things are bad, I want to play football."',
+    quoteAuthor: 'Paul Gascoigne',
+  },
+  {
+    id: 21,
+    title: 'Bergkamp\'s Masterpiece',
+    subtitle: 'Dennis Bergkamp — 1998 FIFA World Cup Quarter-Final',
+    image: '/assets/images/Bergkamp.jpeg',
+    didYouKnow:
+      'In the 89th minute, Dennis Bergkamp beautifully controlled a 60-yard pass from Frank de Boer, beat Roberto Ayala, and scored with the outside of his boot to send the Netherlands to the semi-finals.',
+    quote:
+      '"You never play a perfect game, but the moment itself was, I think, perfect."',
+    quoteAuthor: 'Dennis Bergkamp',
+  },
+  {
+    id: 22,
+    title: 'Wonder Boy',
+    subtitle: 'Michael Owen — 1998 FIFA World Cup Round of 16',
+    image: '/assets/images/Michael Owen.jpeg',
+    didYouKnow:
+      'At just 18 years old, Michael Owen scored a breathtaking solo goal against Argentina. He surged past José Chamot and Roberto Ayala before smashing the ball into the top corner, introducing himself to the world stage.',
+    quote:
+      '"It was a goal that changed my life forever. Suddenly, everybody knew my name."',
+    quoteAuthor: 'Michael Owen',
+  },
+  {
+    id: 23,
+    title: 'The Phenomenon Returns',
+    subtitle: 'Ronaldo Nazário — 2002 FIFA World Cup Final',
+    image: '/assets/images/Ronaldo Nazario.jpeg',
+    didYouKnow:
+      'After suffering career-threatening knee injuries, Ronaldo scored two goals in the 2002 Final against Germany, redeeming himself for the mysteries of the 1998 Final and finishing as the tournament\'s top scorer.',
+    quote:
+      '"The goals were a reward for the suffering and the hard work I put in to come back."',
+    quoteAuthor: 'Ronaldo Nazário',
+  },
+  {
+    id: 24,
+    title: 'Rossi\'s Hat-Trick',
+    subtitle: 'Paolo Rossi — 1982 FIFA World Cup Second Group Stage',
+    image: '/assets/images/Paolo Rossi.jpeg',
+    didYouKnow:
+      'Paolo Rossi, recently returning from a two-year suspension, scored a stunning hat-trick against a heavily favored Brazil team. He went on to win the Golden Boot and lead Italy to the World Cup title.',
+    quote:
+      '"That match against Brazil changed everything. It was the rebirth of Italian football and my own rebirth."',
+    quoteAuthor: 'Paolo Rossi',
+  },
+  {
+    id: 25,
+    title: 'The Goal of the Desert',
+    subtitle: 'Saeed Al-Owairan — 1994 FIFA World Cup Group Stage',
+    image: '/assets/images/Saed Al Owaran.jpeg',
+    didYouKnow:
+      'Saeed Al-Owairan ran over 70 yards from his own half, beating five Belgian players before scoring. The goal sent Saudi Arabia to the knockout stages in their first ever World Cup appearance.',
+    quote:
+      '"It was the best goal of my life. I scored it for every Arab in the world."',
+    quoteAuthor: 'Saeed Al-Owairan',
+  },
+  {
+    id: 26,
+    title: 'Salenko\'s Five',
+    subtitle: 'Oleg Salenko — 1994 FIFA World Cup Group Stage',
+    image: '/assets/images/Oleg Salenko.jpeg',
+    didYouKnow:
+      'Oleg Salenko set a World Cup record by scoring five goals in a single match as Russia defeated Cameroon 6-1. Despite Russia being knocked out in the group stage, he shared the Golden Boot with Hristo Stoichkov.',
+    quote:
+      '"I couldn\'t believe it myself. Every time I hit the ball, it seemed to go in."',
+    quoteAuthor: 'Oleg Salenko',
+  },
+  {
+    id: 27,
+    title: 'The Seaman Lob',
+    subtitle: 'Ronaldinho — 2002 FIFA World Cup Quarter-Final',
+    image: '/assets/images/Ronaldinho.jpeg',
+    didYouKnow:
+      'Ronaldinho caught England goalkeeper David Seaman off guard with a spectacular 40-yard free-kick that looped into the far top corner. He claimed he saw Seaman off his line and meant it as a shot, not a cross.',
+    quote:
+      '"When I hit the ball I wanted to shoot, but maybe not exactly there. God was with me."',
+    quoteAuthor: 'Ronaldinho',
+  },
+  {
+    id: 28,
+    title: 'Zizou\'s Glory',
+    subtitle: 'Zinedine Zidane — 1998 FIFA World Cup Final',
+    image: '/assets/images/Zizou.jpeg',
+    didYouKnow:
+      'Zinedine Zidane became a national hero by scoring two powerful headers from corner kicks in the first half of the 1998 Final, leading host nation France to a 3-0 victory over defending champions Brazil.',
+    quote:
+      '"To win a World Cup in your own country is a dream you can\'t describe until it happens."',
+    quoteAuthor: 'Zinedine Zidane',
+  },
+  {
+    id: 29,
+    title: 'Grosso\'s Joy',
+    subtitle: 'Fabio Grosso — 2006 FIFA World Cup Semi-Final',
+    image: '/assets/images/Fabio Grosso.jpeg',
+    didYouKnow:
+      'In the 119th minute of a deadlocked semi-final against host nation Germany, left-back Fabio Grosso curled a brilliant shot into the far corner, sparking wild celebrations as he ran screaming "I don\'t believe it!"',
+    quote:
+      '"I didn\'t even look at the goal. I just hit it with everything I had."',
+    quoteAuthor: 'Fabio Grosso',
+  },
+  {
+    id: 30,
+    title: 'Mbappé Arrives',
+    subtitle: 'Kylian Mbappé — 2018 FIFA World Cup Round of 16',
+    image: '/assets/images/Mbappe.jpeg',
+    didYouKnow:
+      'Kylian Mbappé ran riot against Argentina, drawing a penalty with a blistering 70-yard run and scoring twice. He became the first teenager to score twice in a World Cup match since Pelé in 1958.',
+    quote:
+      '"It\'s flattering to be the second one after Pelé, but let\'s put things into context: Pelé is another category."',
+    quoteAuthor: 'Kylian Mbappé',
+  },
+  {
+    id: 31,
+    title: 'The Ahn Golden Goal',
+    subtitle: 'Ahn Jung-hwan — 2002 FIFA World Cup Round of 16',
+    image: '/assets/images/Ahn Jung Hwan.jpeg',
+    didYouKnow:
+      'Ahn Jung-hwan scored a dramatic golden goal header in the 117th minute to eliminate Italy and send co-hosts South Korea into the quarter-finals, sparking a massive national celebration.',
+    quote:
+      '"I was just so happy. The whole country was watching us, and we delivered a miracle."',
+    quoteAuthor: 'Ahn Jung-hwan',
+  },
+  {
+    id: 32,
+    title: 'Fontaine\'s Record',
+    subtitle: 'Just Fontaine — 1958 FIFA World Cup',
+    image: '/assets/images/Just Fontaine.jpeg',
+    didYouKnow:
+      'French striker Just Fontaine scored an astonishing 13 goals in just six matches during the 1958 tournament in Sweden, a single-tournament record that has stood for over 60 years and is unlikely to ever be broken.',
+    quote:
+      '"I was walking on water. Everything I tried came off. It was just my time."',
+    quoteAuthor: 'Just Fontaine',
+  },
+  {
+    id: 33,
+    title: 'The Puskás Magic',
+    subtitle: 'Ferenc Puskás — 1954 FIFA World Cup',
+    image: '/assets/images/Frenc Puskas.jpeg',
+    didYouKnow:
+      'Ferenc Puskás captained the "Mighty Magyars" to the 1954 Final. Despite playing the final with a hairline fracture in his ankle, he scored the opening goal and won the Golden Ball for best player.',
+    quote:
+      '"We played football like no one had ever seen before. It was an art."',
+    quoteAuthor: 'Ferenc Puskás',
+  },
+  {
+    id: 34,
+    title: 'Richarlison\'s Acrobatics',
+    subtitle: 'Richarlison — 2022 FIFA World Cup Group Stage',
+    image: '/assets/images/Richarlison.jpeg',
+    didYouKnow:
+      'Richarlison controlled a cross with his first touch, popping the ball into the air, and executed a flawless acrobatic scissor kick to score against Serbia. It was voted the Goal of the Tournament.',
+    quote:
+      '"I practice this shot in training all the time. To do it in a World Cup is a dream come true."',
+    quoteAuthor: 'Richarlison',
+  },
+  {
+    id: 35,
+    title: 'Asano\'s Shock',
+    subtitle: 'Takuma Asano — 2022 FIFA World Cup Group Stage',
+    image: '/assets/images/Takuma Asano.jpeg',
+    didYouKnow:
+      'Takuma Asano latched onto a long ball, held off Nico Schlotterbeck, and smashed a shot into the roof of the net from a tight angle, sealing a historic 2-1 upset victory for Japan against Germany.',
+    quote:
+      '"We believed in ourselves. Even when we were behind, we never stopped running."',
+    quoteAuthor: 'Takuma Asano',
+  }
 ];

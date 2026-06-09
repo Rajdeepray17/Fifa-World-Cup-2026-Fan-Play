@@ -11,6 +11,13 @@ import Footer from './components/Footer';
 
 /* Lazy imports for pages (code-splitting) */
 const Home = lazy(() => import('./pages/Home'));
+const Groups = lazy(() => import('./pages/Groups'));
+const Fixtures = lazy(() => import('./pages/Fixtures'));
+const YourTeam = lazy(() => import('./pages/YourTeam'));
+const Memories = lazy(() => import('./pages/Memories'));
+const Icons = lazy(() => import('./pages/Icons'));
+const WallOfChampions = lazy(() => import('./pages/WallOfChampions'));
+const Contact = lazy(() => import('./pages/Contact'));
 const Placeholder = lazy(() => import('./pages/Placeholder'));
 const Activity = lazy(() => import('./pages/Activity'));
 const BracketPredictor = lazy(() => import('./pages/BracketPredictor'));
@@ -49,11 +56,13 @@ function AppInner() {
               <Route path="/activity/bracket" element={<BracketPredictor />} />
               <Route path="/activity/squad-builder" element={<SquadBuilder />} />
               <Route path="/activity/trivia" element={<TriviaGame />} />
-              <Route path="/groups" element={<Placeholder />} />
-              <Route path="/fixtures" element={<Placeholder />} />
-              <Route path="/memories" element={<Placeholder />} />
-              <Route path="/your-team" element={<Placeholder />} />
-              <Route path="/contact" element={<Placeholder />} />
+              <Route path="/groups" element={<Groups />} />
+              <Route path="/fixtures" element={<Fixtures />} />
+              <Route path="/memories" element={<Memories />} />
+              <Route path="/icons" element={<Icons />} />
+              <Route path="/wall-of-champions" element={<WallOfChampions />} />
+              <Route path="/your-team" element={<YourTeam />} />
+              <Route path="/contact" element={<Contact />} />
             </Routes>
           </Suspense>
           <Footer />

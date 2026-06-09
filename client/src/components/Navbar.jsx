@@ -11,6 +11,8 @@ const navItems = [
   { label: 'Groups', path: '/groups' },
   { label: 'Fixtures', path: '/fixtures' },
   { label: 'Memories', path: '/memories' },
+  { label: 'Icons', path: '/icons' },
+  { label: 'Champions', path: '/wall-of-champions' },
   { label: 'Your Team', path: '/your-team' },
   { label: 'Contact', path: '/contact' },
 ];
