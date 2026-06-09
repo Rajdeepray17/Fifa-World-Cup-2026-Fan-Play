@@ -44,6 +44,10 @@ const BracketPredictor = () => {
     fetchNations();
   }, []);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [step]);
+
   const handleGroupRankingsChange = (newGroupsData) => {
     setGroupsData(newGroupsData);
   };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 
@@ -6,6 +6,10 @@ const Contact = () => {
   const { selectedNation } = useTheme();
   
   const themeColor = selectedNation?.theme?.primary || '#FFD700';
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const skills = [
     { name: "React", level: 90 },

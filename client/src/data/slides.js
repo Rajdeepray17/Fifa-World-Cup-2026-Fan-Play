@@ -327,13 +327,13 @@ export const slides = [
   },
   {
     id: 30,
-    title: 'Mbappé Arrives',
-    subtitle: 'Kylian Mbappé — 2018 FIFA World Cup Round of 16',
+    title: 'The Hat-Trick Heroics',
+    subtitle: 'Kylian Mbappé — 2022 FIFA World Cup Final',
     image: '/assets/images/Mbappe.jpeg',
     didYouKnow:
-      'Kylian Mbappé ran riot against Argentina, drawing a penalty with a blistering 70-yard run and scoring twice. He became the first teenager to score twice in a World Cup match since Pelé in 1958.',
+      'Down 2-0 with just ten minutes left, Kylian Mbappé erupted to score a historic hat-trick—only the second ever in a World Cup Final. Single-handedly dragging France to a penalty shootout, his breathtaking performance nearly shattered the dreams of half the planet.',
     quote:
-      '"It\'s flattering to be the second one after Pelé, but let\'s put things into context: Pelé is another category."',
+      '"We will return."',
     quoteAuthor: 'Kylian Mbappé',
   },
   {
