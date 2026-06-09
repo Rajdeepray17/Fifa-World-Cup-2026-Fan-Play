@@ -78,6 +78,7 @@ const features = [
       </svg>
     ),
   },
+  /*
   {
     title: 'Your Team',
     path: '/your-team',
@@ -90,6 +91,7 @@ const features = [
       </svg>
     ),
   },
+  */
   {
     title: 'Contact',
     path: '/contact',

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import html2canvas from 'html2canvas';
+import { API_URL } from '../config';
 
 /* ═══════════════════════════════════════════════════
    POSITION MAP for the 4-3-3 pitch layout
@@ -54,7 +55,7 @@ const SquadBuilder = () => {
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/nations?limit=100');
+        const res = await fetch(`${API_URL}/nations?limit=100`);
         const json = await res.json();
         if (json.success && json.data) {
           const valid = json.data.filter(n => !n.isPlaceholder);
@@ -116,7 +117,7 @@ const SquadBuilder = () => {
     if (!rolledNation) return;
     setLoadingSquad(true);
     try {
-      const res = await fetch(`http://localhost:5000/api/players/nation/code/${rolledNation.code}`);
+      const res = await fetch(`${API_URL}/players/nation/code/${rolledNation.code}`);
       const json = await res.json();
       if (json.success && json.data) {
         setNationSquad(json.data);

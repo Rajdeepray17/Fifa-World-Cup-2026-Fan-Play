@@ -55,14 +55,14 @@ export default function HeroSlideshow() {
 
   /* Auto-rotate */
   useEffect(() => {
-    timerRef.current = setInterval(next, 7000);
+    timerRef.current = setInterval(next, 15000);
     return () => clearInterval(timerRef.current);
   }, [next]);
 
   /* Reset timer on manual nav */
   const resetTimer = () => {
     clearInterval(timerRef.current);
-    timerRef.current = setInterval(next, 7000);
+    timerRef.current = setInterval(next, 15000);
   };
 
   /* Touch handling */
@@ -235,7 +235,7 @@ export default function HeroSlideshow() {
         </button>
 
         {/* Dots */}
-        <div className="flex gap-2">
+        <div className="hidden md:flex gap-2">
           {slides.map((_, i) => (
             <button
               key={i}

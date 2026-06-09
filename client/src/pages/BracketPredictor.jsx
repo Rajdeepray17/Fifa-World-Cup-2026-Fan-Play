@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { API_URL } from '../config';
 import GroupStageDraggable from '../components/bracket/GroupStageDraggable';
 import ThirdPlaceSelector from '../components/bracket/ThirdPlaceSelector';
 import VisualBracket from '../components/bracket/VisualBracket';
@@ -14,7 +15,7 @@ const BracketPredictor = () => {
     // Fetch all nations
     const fetchNations = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/nations?limit=100');
+        const response = await fetch(`${API_URL}/nations?limit=100`);
         const data = await response.json();
         
         // Group nations by their letter

@@ -62,7 +62,7 @@ export default function Footer() {
               <Link to="/groups" className="text-white/60 hover:text-white transition-colors py-1">Groups</Link>
               <Link to="/fixtures" className="text-white/60 hover:text-white transition-colors py-1">Fixtures</Link>
               <Link to="/memories" className="text-white/60 hover:text-white transition-colors py-1">Memories</Link>
-              <Link to="/your-team" className="text-white/60 hover:text-white transition-colors py-1">Your Team</Link>
+              {/* <Link to="/your-team" className="text-white/60 hover:text-white transition-colors py-1">Your Team</Link> */}
             </div>
           </div>
 

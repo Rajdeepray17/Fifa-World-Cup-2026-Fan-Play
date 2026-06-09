@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { API_URL } from '../../config';
 
 // Map pitch positions to database positions
 const getDbPosition = (pitchPos) => {
@@ -15,7 +16,7 @@ const PlayerSelectionModal = ({ nation, position, onSelect, onCancel }) => {
   useEffect(() => {
     const fetchPlayers = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/players?nation=${nation._id}`);
+        const response = await fetch(`${API_URL}/players?nation=${nation._id}`);
         const data = await response.json();
         
         if (data.status === 'success') {

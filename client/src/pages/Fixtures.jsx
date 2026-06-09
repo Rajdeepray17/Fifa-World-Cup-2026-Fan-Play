@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
+import { API_URL } from '../config';
 import MatchCard from '../components/fixtures/MatchCard';
 
 const ROUNDS = [
@@ -25,7 +26,7 @@ const Fixtures = () => {
   useEffect(() => {
     const fetchFixtures = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/fixtures?limit=104&sort=date');
+        const response = await fetch(`${API_URL}/fixtures?limit=104&sort=date`);
         const data = await response.json();
         if (data.success) {
           setFixtures(data.data);

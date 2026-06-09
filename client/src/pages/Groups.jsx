@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
+import { API_URL } from '../config';
 import GroupTable from '../components/groups/GroupTable';
 
 const Groups = () => {
@@ -11,7 +12,7 @@ const Groups = () => {
   useEffect(() => {
     const fetchNations = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/nations?limit=100');
+        const response = await fetch(`${API_URL}/nations?limit=100`);
         const data = await response.json();
         
         const grouped = {};

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
+import { API_URL } from '../config';
 import StarPlayerCard from '../components/your-team/StarPlayerCard';
 
 const YourTeam = () => {
@@ -21,7 +22,7 @@ const YourTeam = () => {
         // If we only have the static fallback theme without an _id, fetch by code
         try {
            const code = selectedNation?.code || 'ar'; // fallback
-           const response = await fetch(`http://localhost:5000/api/players/nation/code/${code}`);
+           const response = await fetch(`${API_URL}/players/nation/code/${code}`);
            const data = await response.json();
            if (data.success) {
              setSquad(data.data);
@@ -35,7 +36,7 @@ const YourTeam = () => {
       }
 
       try {
-        const response = await fetch(`http://localhost:5000/api/players/nation/${selectedNation._id}`);
+        const response = await fetch(`${API_URL}/players/nation/${selectedNation._id}`);
         const data = await response.json();
         if (data.success) {
           setSquad(data.data);
