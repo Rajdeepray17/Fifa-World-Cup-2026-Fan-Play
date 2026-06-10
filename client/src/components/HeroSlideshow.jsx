@@ -264,7 +264,7 @@ export default function HeroSlideshow() {
 
       {/* Scroll indicator */}
       <motion.div
-        className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center"
+        className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 hidden md:flex flex-col items-center"
         animate={{ y: [0, 6, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
       >
