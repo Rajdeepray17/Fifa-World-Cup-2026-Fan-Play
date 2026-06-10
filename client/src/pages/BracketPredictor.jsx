@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { API_URL } from '../config';
+import { useTheme } from '../context/ThemeContext';
 import GroupStageDraggable from '../components/bracket/GroupStageDraggable';
 import ThirdPlaceSelector from '../components/bracket/ThirdPlaceSelector';
 import VisualBracket from '../components/bracket/VisualBracket';
@@ -10,39 +11,57 @@ const BracketPredictor = () => {
   const [loading, setLoading] = useState(true);
   const [groupsData, setGroupsData] = useState({});
   const [thirdPlaceQualifiers, setThirdPlaceQualifiers] = useState([]); // Array of group letters
+  const { globalNations } = useTheme();
 
   useEffect(() => {
-    // Fetch all nations
-    const fetchNations = async () => {
-      try {
-        const response = await fetch(`${API_URL}/nations?limit=100`);
-        const data = await response.json();
-        
-        // Group nations by their letter
-        const grouped = {};
-        const groupLetters = ['A','B','C','D','E','F','G','H','I','J','K','L'];
-        
-        groupLetters.forEach(letter => {
-          grouped[letter] = [];
-        });
+    if (globalNations) {
+      const grouped = {};
+      const groupLetters = ['A','B','C','D','E','F','G','H','I','J','K','L'];
+      
+      groupLetters.forEach(letter => {
+        grouped[letter] = [];
+      });
 
-        if (data.success) {
-          data.data.forEach(nation => {
-            if (nation.group && grouped[nation.group]) {
-              grouped[nation.group].push(nation);
-            }
-          });
-          setGroupsData(grouped);
+      globalNations.forEach(nation => {
+        if (nation.group && grouped[nation.group]) {
+          grouped[nation.group].push(nation);
         }
-      } catch (err) {
-        console.error("Failed to fetch nations:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+      });
+      setGroupsData(grouped);
+      setLoading(false);
+    } else {
+      // Fetch all nations
+      const fetchNations = async () => {
+        try {
+          const response = await fetch(`${API_URL}/nations?limit=100`);
+          const data = await response.json();
+          
+          // Group nations by their letter
+          const grouped = {};
+          const groupLetters = ['A','B','C','D','E','F','G','H','I','J','K','L'];
+          
+          groupLetters.forEach(letter => {
+            grouped[letter] = [];
+          });
 
-    fetchNations();
-  }, []);
+          if (data.success) {
+            data.data.forEach(nation => {
+              if (nation.group && grouped[nation.group]) {
+                grouped[nation.group].push(nation);
+              }
+            });
+            setGroupsData(grouped);
+          }
+        } catch (err) {
+          console.error("Failed to fetch nations:", err);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchNations();
+    }
+  }, [globalNations]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });

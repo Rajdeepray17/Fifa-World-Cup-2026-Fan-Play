@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { nations, defaultTheme, hexToRgba } from '../data/nations';
+import { API_URL } from '../config';
 
 const ThemeContext = createContext();
 
@@ -18,6 +19,30 @@ function applyThemeToDOM(primary, secondary, accent) {
 export function ThemeProvider({ children }) {
   const [selectedNation, setSelectedNation] = useState(null);
   const [isNationSelected, setIsNationSelected] = useState(false);
+  const [globalNations, setGlobalNations] = useState(null);
+  const [globalFixtures, setGlobalFixtures] = useState(null);
+
+  /* Pre-fetch in background */
+  useEffect(() => {
+    const fetchGlobalData = async () => {
+      try {
+        const nationsPromise = fetch(`${API_URL}/nations?limit=100`).then(r => r.json());
+        const fixturesPromise = fetch(`${API_URL}/fixtures?limit=104&sort=date`).then(r => r.json());
+
+        const [nationsRes, fixturesRes] = await Promise.all([nationsPromise, fixturesPromise]);
+
+        if (nationsRes.success) {
+          setGlobalNations(nationsRes.data);
+        }
+        if (fixturesRes.success) {
+          setGlobalFixtures(fixturesRes.data);
+        }
+      } catch (err) {
+        console.error("Failed to prefetch global data:", err);
+      }
+    };
+    fetchGlobalData();
+  }, []);
 
   /* Restore from localStorage on mount */
   useEffect(() => {
@@ -67,6 +92,8 @@ export function ThemeProvider({ children }) {
     selectNation,
     resetNation,
     nations,
+    globalNations,
+    globalFixtures,
   };
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;

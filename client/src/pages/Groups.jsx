@@ -7,38 +7,55 @@ import GroupTable from '../components/groups/GroupTable';
 const Groups = () => {
   const [loading, setLoading] = useState(true);
   const [groupsData, setGroupsData] = useState({});
-  const { selectedNation } = useTheme();
+  const { selectedNation, globalNations } = useTheme();
 
   useEffect(() => {
-    const fetchNations = async () => {
-      try {
-        const response = await fetch(`${API_URL}/nations?limit=100`);
-        const data = await response.json();
-        
-        const grouped = {};
-        const groupLetters = ['A','B','C','D','E','F','G','H','I','J','K','L'];
-        
-        groupLetters.forEach(letter => {
-          grouped[letter] = [];
-        });
+    if (globalNations) {
+      const grouped = {};
+      const groupLetters = ['A','B','C','D','E','F','G','H','I','J','K','L'];
+      
+      groupLetters.forEach(letter => {
+        grouped[letter] = [];
+      });
 
-        if (data.success) {
-          data.data.forEach(nation => {
-            if (nation.group && grouped[nation.group]) {
-              grouped[nation.group].push(nation);
-            }
-          });
-          setGroupsData(grouped);
+      globalNations.forEach(nation => {
+        if (nation.group && grouped[nation.group]) {
+          grouped[nation.group].push(nation);
         }
-      } catch (err) {
-        console.error("Failed to fetch nations:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+      });
+      setGroupsData(grouped);
+      setLoading(false);
+    } else {
+      const fetchNations = async () => {
+        try {
+          const response = await fetch(`${API_URL}/nations?limit=100`);
+          const data = await response.json();
+          
+          const grouped = {};
+          const groupLetters = ['A','B','C','D','E','F','G','H','I','J','K','L'];
+          
+          groupLetters.forEach(letter => {
+            grouped[letter] = [];
+          });
 
-    fetchNations();
-  }, []);
+          if (data.success) {
+            data.data.forEach(nation => {
+              if (nation.group && grouped[nation.group]) {
+                grouped[nation.group].push(nation);
+              }
+            });
+            setGroupsData(grouped);
+          }
+        } catch (err) {
+          console.error("Failed to fetch nations:", err);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchNations();
+    }
+  }, [globalNations]);
 
   if (loading) {
     return (

@@ -21,25 +21,31 @@ const Fixtures = () => {
   const [filteredFixtures, setFilteredFixtures] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedRound, setSelectedRound] = useState('All');
-  const { selectedNation } = useTheme();
+  const { selectedNation, globalFixtures } = useTheme();
 
   useEffect(() => {
-    const fetchFixtures = async () => {
-      try {
-        const response = await fetch(`${API_URL}/fixtures?limit=104&sort=date`);
-        const data = await response.json();
-        if (data.success) {
-          setFixtures(data.data);
-          setFilteredFixtures(data.data);
+    if (globalFixtures) {
+      setFixtures(globalFixtures);
+      setFilteredFixtures(globalFixtures);
+      setLoading(false);
+    } else {
+      const fetchFixtures = async () => {
+        try {
+          const response = await fetch(`${API_URL}/fixtures?limit=104&sort=date`);
+          const data = await response.json();
+          if (data.success) {
+            setFixtures(data.data);
+            setFilteredFixtures(data.data);
+          }
+        } catch (err) {
+          console.error("Failed to fetch fixtures:", err);
+        } finally {
+          setLoading(false);
         }
-      } catch (err) {
-        console.error("Failed to fetch fixtures:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchFixtures();
-  }, []);
+      };
+      fetchFixtures();
+    }
+  }, [globalFixtures]);
 
   useEffect(() => {
     let result = fixtures;

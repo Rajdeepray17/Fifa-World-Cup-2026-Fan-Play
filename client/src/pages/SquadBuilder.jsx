@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import html2canvas from 'html2canvas';
 import { API_URL } from '../config';
 import { nations } from '../data/nations';
+import { useTheme } from '../context/ThemeContext';
 
 /* ═══════════════════════════════════════════════════
    POSITION MAP for the 4-3-3 pitch layout
@@ -190,6 +191,7 @@ const SquadBuilder = () => {
   const [allNations, setAllNations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { globalNations } = useTheme();
 
   /* ── Flow: 'idle' → 'rolling' → 'landed' → 'squad' → 'placing' → back to 'idle' ── */
   const [flowStep, setFlowStep] = useState('idle');
@@ -222,28 +224,39 @@ const SquadBuilder = () => {
 
   /* ── Fetch nations once ── */
   useEffect(() => {
-    (async () => {
-      try {
-        const res = await fetch(`${API_URL}/nations?limit=100`);
-        const json = await res.json();
-        if (json.success && json.data) {
-          const valid = json.data.filter(n => !n.isPlaceholder);
-          setAllNations(valid);
-          // Preload all flags to prevent animation lag
-          valid.forEach(nation => {
-            const img = new Image();
-            img.src = `https://flagcdn.com/w320/${nation.flagCode}.png`;
-          });
-        } else {
-          setError('API returned unexpected format');
+    if (globalNations) {
+      const valid = globalNations.filter(n => !n.isPlaceholder);
+      setAllNations(valid);
+      // Preload all flags to prevent animation lag
+      valid.forEach(nation => {
+        const img = new Image();
+        img.src = `https://flagcdn.com/w320/${nation.flagCode}.png`;
+      });
+      setLoading(false);
+    } else {
+      (async () => {
+        try {
+          const res = await fetch(`${API_URL}/nations?limit=100`);
+          const json = await res.json();
+          if (json.success && json.data) {
+            const valid = json.data.filter(n => !n.isPlaceholder);
+            setAllNations(valid);
+            // Preload all flags to prevent animation lag
+            valid.forEach(nation => {
+              const img = new Image();
+              img.src = `https://flagcdn.com/w320/${nation.flagCode}.png`;
+            });
+          } else {
+            setError('API returned unexpected format');
+          }
+        } catch (e) {
+          setError(e.message);
+        } finally {
+          setLoading(false);
         }
-      } catch (e) {
-        setError(e.message);
-      } finally {
-        setLoading(false);
-      }
-    })();
-  }, []);
+      })();
+    }
+  }, [globalNations]);
 
   /* Cleanup rolling timeouts */
   useEffect(() => {
