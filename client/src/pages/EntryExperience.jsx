@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import LoadingScreen from '../components/LoadingScreen';
 import IntroVideo from '../components/IntroVideo';
@@ -27,12 +27,20 @@ const PHASE = {
 
 export default function EntryExperience() {
   const [phase, setPhase] = useState(PHASE.LOADING);
-  const { selectNation } = useTheme();
+  const { selectNation, isDataLoaded } = useTheme();
   const videoRef = useRef(null);
+  const [animationDone, setAnimationDone] = useState(false);
 
-  /* Loading complete → show tap-to-begin prompt */
+  /* Sync transition to Tap to Begin stage only after progress animation ends and global fetches complete */
+  useEffect(() => {
+    if (animationDone && isDataLoaded && phase === PHASE.LOADING) {
+      setPhase(PHASE.TAP_TO_BEGIN);
+    }
+  }, [animationDone, isDataLoaded, phase]);
+
+  /* Loading complete → set animation done */
   const handleLoadingComplete = useCallback(() => {
-    setPhase(PHASE.TAP_TO_BEGIN);
+    setAnimationDone(true);
   }, []);
 
   /* User taps → this click IS the user gesture that unlocks audio */

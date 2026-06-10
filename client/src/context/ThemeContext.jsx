@@ -94,6 +94,7 @@ export function ThemeProvider({ children }) {
     nations,
     globalNations,
     globalFixtures,
+    isDataLoaded: Boolean(globalNations && globalFixtures),
   };
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;

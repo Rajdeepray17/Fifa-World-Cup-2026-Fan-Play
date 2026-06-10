@@ -100,7 +100,7 @@ export default function LoadingScreen({ onComplete }) {
           style={{ background: 'linear-gradient(90deg, #c4a44a, #e8d48b)' }}
           initial={{ width: '0%' }}
           animate={{ width: '100%' }}
-          transition={{ delay: 1.2, duration: 2.5, ease: 'easeInOut' }}
+          transition={{ delay: 1.2, duration: 4.5, ease: 'easeInOut' }}
           onAnimationComplete={onComplete}
         />
       </motion.div>
