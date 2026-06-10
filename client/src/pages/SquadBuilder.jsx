@@ -494,6 +494,12 @@ const SquadBuilder = () => {
                     </div>
                   );
                 })}
+                {/* Premium pitch footer/watermark */}
+                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 bg-black/60 backdrop-blur-sm px-4 py-1.5 rounded-full border border-white/10 text-center flex items-center gap-1.5 pointer-events-none">
+                  <span className="text-[9px] font-accent font-bold text-[#FFD700] tracking-wider uppercase">fifawc2026dh.netlify.app</span>
+                  <span className="text-white/20 text-xs">•</span>
+                  <span className="text-[9px] font-accent text-white/60 tracking-wider">FAN PLAY SQUAD BUILDER</span>
+                </div>
               </div>
             )}
           </div>
@@ -741,8 +747,8 @@ const SquadBuilder = () => {
             left: '-9999px',
             top: '0',
             width: '800px',
-            height: '1200px',
-            padding: '60px 40px',
+            height: '1350px',
+            padding: '50px 40px',
             background: 'linear-gradient(135deg, #050508 0%, #12121c 100%)',
             color: '#fff',
             fontFamily: "'Inter', sans-serif",
@@ -766,10 +772,7 @@ const SquadBuilder = () => {
             <h2
               className="text-5xl font-heading font-black tracking-[0.1em] uppercase mb-1"
               style={{
-                background: GOLD_GRADIENT,
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
+                color: '#FFD700',
               }}
             >
               STARTING XI
@@ -781,7 +784,7 @@ const SquadBuilder = () => {
           </div>
 
           {/* Players List */}
-          <div className="my-8 flex flex-col gap-[14px] relative z-10">
+          <div className="my-6 flex flex-col gap-3 relative z-10">
             {POSITIONS_MOBILE.map(pos => {
               const player = squad[pos.id];
               
@@ -790,7 +793,7 @@ const SquadBuilder = () => {
                 return (
                   <div
                     key={pos.id}
-                    className="flex items-center justify-between p-[14px] rounded-lg border shadow-md overflow-hidden relative"
+                    className="flex items-center justify-between p-3 rounded-lg border shadow-md overflow-hidden relative"
                     style={{
                       background: `linear-gradient(135deg, ${theme.primary} 0%, ${theme.secondary} 100%)`,
                       borderColor: theme.accent || GOLD,
@@ -842,7 +845,7 @@ const SquadBuilder = () => {
                 return (
                   <div
                     key={pos.id}
-                    className="flex items-center justify-between p-[14px] rounded-lg border border-white/10 bg-white/[0.03] opacity-60"
+                    className="flex items-center justify-between p-3 rounded-lg border border-white/10 bg-white/[0.03] opacity-60"
                   >
                     <div className="flex items-center gap-4">
                       <div className="w-9 h-9 rounded-full border border-dashed border-white/20 flex items-center justify-center text-white/30 font-bold text-xs">
@@ -867,8 +870,8 @@ const SquadBuilder = () => {
             <div className="text-[10px] font-accent text-[#BF953F] tracking-[0.3em] uppercase font-bold">
               United 2026 • Canada • Mexico • USA
             </div>
-            <div className="text-[9px] text-white/30 font-accent mt-1">
-              Generated via Squad Builder Fan Play
+            <div className="text-[9px] text-white/40 font-accent mt-1">
+              fifawc2026dh.netlify.app • Fan Play Squad Builder
             </div>
           </div>
         </div>

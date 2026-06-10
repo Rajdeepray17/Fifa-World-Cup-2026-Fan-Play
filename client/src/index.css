@@ -167,3 +167,12 @@
   -webkit-backdrop-filter: blur(30px);
   background: rgba(10, 10, 15, 0.92);
 }
+
+/* ── Gold helper classes ── */
+.bg-gold {
+  background-color: #FFD700;
+}
+.text-gold {
+  color: #FFD700;
+}
+
