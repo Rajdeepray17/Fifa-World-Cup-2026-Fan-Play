@@ -1,17 +1,17 @@
 import React from 'react';
 
 const positionsMap = {
-  GK: { bottom: '5%', left: '50%', transform: 'translateX(-50%)' },
-  LB: { bottom: '20%', left: '15%' },
-  CB1: { bottom: '15%', left: '35%' },
-  CB2: { bottom: '15%', right: '35%' },
-  RB: { bottom: '20%', right: '15%' },
-  CDM: { bottom: '40%', left: '50%', transform: 'translateX(-50%)' },
-  CM1: { bottom: '50%', left: '25%' },
-  CM2: { bottom: '50%', right: '25%' },
-  LW: { top: '20%', left: '15%' },
-  ST: { top: '15%', left: '50%', transform: 'translateX(-50%)' },
-  RW: { top: '20%', right: '15%' }
+  GK: { bottom: '4%', left: '50%', transform: 'translateX(-50%)' },
+  LB: { bottom: '18%', left: '12%', transform: 'translateX(-50%)' },
+  CB1: { bottom: '14%', left: '37.5%', transform: 'translateX(-50%)' },
+  CB2: { bottom: '14%', left: '62.5%', transform: 'translateX(-50%)' },
+  RB: { bottom: '18%', left: '88%', transform: 'translateX(-50%)' },
+  CDM: { bottom: '32%', left: '50%', transform: 'translateX(-50%)' },
+  CM1: { bottom: '48%', left: '25%', transform: 'translateX(-50%)' },
+  CM2: { bottom: '48%', left: '75%', transform: 'translateX(-50%)' },
+  LW: { top: '22%', left: '16%', transform: 'translateX(-50%)' },
+  ST: { top: '8%', left: '50%', transform: 'translateX(-50%)' },
+  RW: { top: '22%', left: '84%', transform: 'translateX(-50%)' }
 };
 
 const PitchView = ({ squad, activePosition, onPositionClick, highlightEmpty = false }) => {
@@ -53,7 +53,7 @@ const PitchView = ({ squad, activePosition, onPositionClick, highlightEmpty = fa
               >
                 {/* Premium Player Node */}
                 <div 
-                  className="w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center border-2 shadow-[0_0_15px_rgba(0,0,0,0.5)] overflow-hidden"
+                  className="w-9 h-9 sm:w-12 sm:h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center border md:border-2 shadow-[0_0_15px_rgba(0,0,0,0.5)] overflow-hidden"
                   style={{ 
                     background: `linear-gradient(135deg, ${player.draftedNation?.theme?.primary || '#111'}, ${player.draftedNation?.theme?.secondary || '#000'})`,
                     borderColor: player.draftedNation?.theme?.accent || '#FFD700'
@@ -66,34 +66,34 @@ const PitchView = ({ squad, activePosition, onPositionClick, highlightEmpty = fa
                     className="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-overlay"
                     onError={(e) => { e.target.style.display = 'none'; }}
                   />
-                  <span className="relative z-10 text-white font-outfit font-bold text-lg drop-shadow-md">
+                  <span className="relative z-10 text-white font-outfit font-bold text-xs sm:text-sm md:text-lg drop-shadow-md">
                     {player.shirtNumber}
                   </span>
                 </div>
                 
                 {/* Label */}
-                <div className="mt-1 px-2 py-0.5 bg-black/80 rounded text-center whitespace-nowrap border border-white/10 backdrop-blur-sm">
-                  <p className="text-white text-xs font-bold truncate max-w-[80px]">{player.name}</p>
+                <div className="mt-0.5 md:mt-1 px-1 md:px-2 py-0 md:py-0.5 bg-black/80 rounded text-center whitespace-nowrap border border-white/10 backdrop-blur-sm">
+                  <p className="text-white text-[9px] md:text-xs font-bold truncate max-w-[55px] sm:max-w-[70px] md:max-w-[90px]">{player.name}</p>
                   <div className="flex items-center justify-center gap-1">
                     <img 
                       src={`https://flagcdn.com/w20/${player.draftedNation?.flagCode}.png`} 
                       alt=""
                       className="w-3 h-2"
                     />
-                    <p className="text-gold text-[10px] uppercase font-semibold">{player.position}</p>
+                    <p className="text-gold text-[7px] md:text-[10px] uppercase font-semibold">{player.position}</p>
                   </div>
                 </div>
               </div>
             ) : (
               <button
                 onClick={() => onPositionClick(posId)}
-                className={`w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center border-2 border-dashed shadow-lg backdrop-blur-sm transition-all duration-300 ${
+                className={`w-9 h-9 sm:w-11 sm:h-11 md:w-14 md:h-14 rounded-full flex items-center justify-center border md:border-2 border-dashed shadow-lg backdrop-blur-sm transition-all duration-300 ${
                   highlightEmpty
                     ? 'border-[#FFD700] bg-[#FFD700]/20 scale-110 shadow-[0_0_20px_rgba(255,215,0,0.4)] animate-pulse cursor-pointer'
                     : 'border-white/50 bg-black/40 cursor-default'
                 }`}
               >
-                <span className="text-white/80 font-bold text-sm tracking-wider">{posId}</span>
+                <span className="text-white/80 font-bold text-[10px] md:text-sm tracking-wider">{posId}</span>
               </button>
             )}
           </div>

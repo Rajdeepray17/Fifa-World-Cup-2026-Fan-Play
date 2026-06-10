@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import html2canvas from 'html2canvas';
 import { API_URL } from '../config';
+import { nations } from '../data/nations';
 
 /* ═══════════════════════════════════════════════════
    POSITION MAP for the 4-3-3 pitch layout
@@ -20,8 +21,166 @@ const POSITIONS = [
   { id: 'RW',  label: 'RW',  style: { top: '18%', right: '12%' } },
 ];
 
+/* Mobile positions matching the user's list request */
+const POSITIONS_MOBILE = [
+  { id: 'GK',  placeholder: 'Goalkeeper', positionLabel: 'GK' },
+  { id: 'LB',  placeholder: 'Left Back', positionLabel: 'LB' },
+  { id: 'CB1', placeholder: 'Centre Back', positionLabel: 'CB' },
+  { id: 'CB2', placeholder: 'Centre Back', positionLabel: 'CB' },
+  { id: 'RB',  placeholder: 'Right Back', positionLabel: 'RB' },
+  { id: 'CDM', placeholder: 'Defensive Midfielder', positionLabel: 'CDM' },
+  { id: 'CM1', placeholder: 'Centre Midfielder', positionLabel: 'CM' },
+  { id: 'CM2', placeholder: 'Centre Midfielder', positionLabel: 'CM' },
+  { id: 'RW',  placeholder: 'Right Winger', positionLabel: 'RW' },
+  { id: 'LW',  placeholder: 'Left winger', positionLabel: 'LW' },
+  { id: 'ST',  placeholder: 'Centre Forward / Striker', positionLabel: 'ST' },
+];
+
 const GOLD = '#BF953F';
 const GOLD_GRADIENT = 'linear-gradient(135deg, #BF953F, #FCF6BA, #B38728)';
+
+/* Helper to resolve the nation theme from local nations.js or database theme */
+const getNationTheme = (nation) => {
+  if (!nation) return { primary: '#333', secondary: '#111', accent: GOLD, flagCode: 'un', name: 'Unknown' };
+  
+  const found = nations.find(n => 
+    n.flagCode?.toLowerCase() === nation.flagCode?.toLowerCase() ||
+    n.name?.toLowerCase() === nation.name?.toLowerCase() ||
+    n.id?.toLowerCase() === nation.code?.toLowerCase()
+  );
+  
+  if (found) {
+    return {
+      primary: found.primary,
+      secondary: found.secondary,
+      accent: found.accent,
+      flagCode: found.flagCode,
+      name: found.name,
+    };
+  }
+  
+  return {
+    primary: nation.theme?.primary || '#333',
+    secondary: nation.theme?.secondary || '#111',
+    accent: nation.theme?.accent || GOLD,
+    flagCode: nation.flagCode || 'un',
+    name: nation.name || 'Unknown',
+  };
+};
+
+/* ── Sub-component for filled player box on mobile ── */
+const FilledMobileBox = ({ player, posLabel }) => {
+  const theme = getNationTheme(player._nation);
+  
+  return (
+    <div
+      className="relative flex items-center justify-between p-4 rounded-xl border shadow-lg overflow-hidden transition-all duration-300 active:scale-[0.98]"
+      style={{
+        background: `linear-gradient(135deg, ${theme.primary} 0%, ${theme.secondary} 100%)`,
+        borderColor: theme.accent || GOLD,
+      }}
+    >
+      {/* Background tint for premium text contrast */}
+      <div className="absolute inset-0 bg-black/40 z-0" />
+      
+      {/* Flag background overlay */}
+      <img
+        src={`https://flagcdn.com/w320/${theme.flagCode}.png`}
+        alt=""
+        className="absolute right-0 top-0 w-36 h-full object-cover opacity-30 mix-blend-overlay pointer-events-none z-0"
+        onError={e => { e.target.style.display = 'none'; }}
+      />
+      
+      {/* Content */}
+      <div className="relative z-10 flex items-center gap-3">
+        {/* Shirt Number Badge */}
+        <div
+          className="w-10 h-10 rounded-full flex items-center justify-center border font-heading font-bold text-base shadow-inner text-white flex-shrink-0"
+          style={{
+            background: `linear-gradient(135deg, ${theme.primary}, ${theme.accent || theme.secondary})`,
+            borderColor: theme.accent || GOLD,
+          }}
+        >
+          {player.shirtNumber}
+        </div>
+        
+        {/* Name and Club */}
+        <div className="flex flex-col">
+          <span className="font-accent font-black text-lg md:text-xl tracking-wide text-white uppercase drop-shadow-md">
+            {player.name}
+          </span>
+          <span className="text-[11px] font-accent text-white/70 tracking-wider font-semibold uppercase">
+            {player.club}
+          </span>
+        </div>
+      </div>
+
+      {/* Right side position & flag */}
+      <div className="relative z-10 flex items-center gap-3">
+        <div className="flex flex-col items-end">
+          <span className="text-[10px] font-accent uppercase text-white/60 tracking-wider">Position</span>
+          <span
+            className="font-heading font-black text-sm px-2 py-0.5 rounded border border-white/20 uppercase"
+            style={{ color: '#fff', backgroundColor: 'rgba(0, 0, 0, 0.4)' }}
+          >
+            {posLabel}
+          </span>
+        </div>
+        <img
+          src={`https://flagcdn.com/w40/${theme.flagCode}.png`}
+          alt={theme.name}
+          className="w-8 h-auto rounded shadow-sm border border-white/10 flex-shrink-0"
+          onError={e => { e.target.style.display = 'none'; }}
+        />
+      </div>
+    </div>
+  );
+};
+
+/* ── Sub-component for empty position box on mobile ── */
+const EmptyMobileBox = ({ posLabel, placeholder, canPlace, onClick }) => {
+  return (
+    <button
+      onClick={canPlace ? onClick : undefined}
+      disabled={!canPlace}
+      className={`relative w-full flex items-center justify-between p-4 rounded-xl border text-left transition-all duration-300 ${
+        canPlace
+          ? 'border-yellow-400 bg-yellow-500/10 shadow-[0_0_20px_rgba(250,204,21,0.5)] animate-pulse scale-[1.01] cursor-pointer'
+          : 'border-white/10 bg-white/5 cursor-default'
+      }`}
+    >
+      <div className="flex items-center gap-3">
+        {/* Placeholder Badge */}
+        <div
+          className={`w-10 h-10 rounded-full flex items-center justify-center border border-dashed font-heading font-bold text-sm ${
+            canPlace ? 'border-yellow-400 text-yellow-400' : 'border-white/20 text-white/40'
+          }`}
+        >
+          {posLabel}
+        </div>
+        
+        {/* Placeholder Name */}
+        <span className={`font-accent font-black text-sm md:text-base tracking-wide uppercase ${
+          canPlace ? 'text-yellow-400' : 'text-white/40'
+        }`}>
+          {placeholder}
+        </span>
+      </div>
+
+      <div className="flex items-center gap-2">
+        {canPlace ? (
+          <span className="text-xs font-accent text-yellow-400 font-bold animate-bounce uppercase">
+            Place Here ➔
+          </span>
+        ) : (
+          <span className="text-xs font-accent text-white/20 uppercase">
+            Empty
+          </span>
+        )}
+      </div>
+    </button>
+  );
+};
 
 /* ═══════════════════════════════════════════════════
    SQUAD BUILDER — Main Page
@@ -50,6 +209,16 @@ const SquadBuilder = () => {
   /* ── Rolling animation state ── */
   const [rollingDisplayIdx, setRollingDisplayIdx] = useState(0);
   const rollTimeoutRef = useRef(null);
+
+  /* ── Mobile responsiveness check & ref ── */
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const mobileListRef = useRef(null);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   /* ── Fetch nations once ── */
   useEffect(() => {
@@ -136,6 +305,12 @@ const SquadBuilder = () => {
   const pickPlayer = (player) => {
     setPickedPlayer(player);
     setFlowStep('placing');
+    // Scroll window/list container into view so the empty glowing spots are immediately visible on mobile
+    setTimeout(() => {
+      if (mobileListRef.current) {
+        mobileListRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
   };
 
   /* ──────────────────────────
@@ -157,11 +332,12 @@ const SquadBuilder = () => {
      Export
      ────────────────────────── */
   const handleExport = async () => {
-    const el = document.getElementById('pitch-export');
+    const exportId = isMobile ? 'lineup-announcement-export' : 'pitch-export';
+    const el = document.getElementById(exportId);
     if (!el) return;
-    const canvas = await html2canvas(el, { backgroundColor: '#000', scale: 2 });
+    const canvas = await html2canvas(el, { backgroundColor: '#000', scale: 2, useCORS: true });
     const a = document.createElement('a');
-    a.download = 'My_WC2026_Starting_XI.jpg';
+    a.download = isMobile ? 'My_WC2026_Lineup_Announcement.jpg' : 'My_WC2026_Starting_XI.jpg';
     a.href = canvas.toDataURL('image/jpeg', 1);
     a.click();
   };
@@ -225,73 +401,101 @@ const SquadBuilder = () => {
         {/* ── MAIN LAYOUT ── */}
         <div className="flex flex-col lg:flex-row gap-8">
 
-          {/* ═══ LEFT: PITCH ═══ */}
-          <div className="flex-1 min-w-0" id="pitch-export">
-            <div className="relative w-full aspect-[2/3] md:aspect-[3/4] max-h-[800px] bg-[#2E8B57] rounded-3xl overflow-hidden shadow-2xl border-4 border-white/20 mx-auto">
-              {/* Pitch markings */}
-              <div className="absolute inset-0 border-[6px] border-white/40 m-4 md:m-8 rounded" />
-              <div className="absolute inset-x-0 top-1/2 h-[6px] bg-white/40 -mt-[3px]" />
-              <div className="absolute top-1/2 left-1/2 w-32 h-32 md:w-48 md:h-48 rounded-full border-[6px] border-white/40 -ml-16 -mt-16 md:-ml-24 md:-mt-24" />
-              <div className="absolute top-4 left-1/2 w-64 md:w-96 h-32 md:h-48 border-[6px] border-t-0 border-white/40 -ml-32 md:-ml-48" />
-              <div className="absolute bottom-4 left-1/2 w-64 md:w-96 h-32 md:h-48 border-[6px] border-b-0 border-white/40 -ml-32 md:-ml-48" />
+          {/* ═══ LEFT PANEL: PITCH (DESKTOP) OR BEAUTIFUL LIST (MOBILE) ═══ */}
+          <div className="flex-1 min-w-0" ref={mobileListRef}>
+            {isMobile ? (
+              /* ── MOBILE VIEW: Position Placeholders List ── */
+              <div className="flex flex-col gap-3 max-w-xl mx-auto">
+                {POSITIONS_MOBILE.map(pos => {
+                  const player = squad[pos.id];
+                  const isEmpty = !player;
+                  const canPlace = flowStep === 'placing' && isEmpty;
 
-              {/* Position slots */}
-              {POSITIONS.map(pos => {
-                const player = squad[pos.id];
-                const isEmpty = !player;
-                const canPlace = flowStep === 'placing' && isEmpty;
+                  return isEmpty ? (
+                    <EmptyMobileBox
+                      key={pos.id}
+                      posLabel={pos.positionLabel}
+                      placeholder={pos.placeholder}
+                      canPlace={canPlace}
+                      onClick={() => placeOnPitch(pos.id)}
+                    />
+                  ) : (
+                    <FilledMobileBox
+                      key={pos.id}
+                      player={player}
+                      posLabel={pos.positionLabel}
+                    />
+                  );
+                })}
+              </div>
+            ) : (
+              /* ── DESKTOP VIEW: Normal Football Pitch ── */
+              <div className="relative w-full aspect-[2/3] md:aspect-[3/4] max-h-[800px] bg-[#2E8B57] rounded-3xl overflow-hidden shadow-2xl border-4 border-white/20 mx-auto" id="pitch-export">
+                {/* Pitch markings */}
+                <div className="absolute inset-0 border-[6px] border-white/40 m-4 md:m-8 rounded" />
+                <div className="absolute inset-x-0 top-1/2 h-[6px] bg-white/40 -mt-[3px]" />
+                <div className="absolute top-1/2 left-1/2 w-32 h-32 md:w-48 md:h-48 rounded-full border-[6px] border-white/40 -ml-16 -mt-16 md:-ml-24 md:-mt-24" />
+                <div className="absolute top-4 left-1/2 w-64 md:w-96 h-32 md:h-48 border-[6px] border-t-0 border-white/40 -ml-32 md:-ml-48" />
+                <div className="absolute bottom-4 left-1/2 w-64 md:w-96 h-32 md:h-48 border-[6px] border-b-0 border-white/40 -ml-32 md:-ml-48" />
 
-                return (
-                  <div key={pos.id} className="absolute z-10 flex flex-col items-center" style={pos.style}>
-                    {player ? (
-                      /* ── Filled slot ── */
-                      <div className="flex flex-col items-center">
-                        <div
-                          className="w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center border-2 shadow-[0_0_15px_rgba(0,0,0,0.5)] overflow-hidden relative"
-                          style={{
-                            background: `linear-gradient(135deg, ${player._nation?.theme?.primary || '#333'}, ${player._nation?.theme?.secondary || '#111'})`,
-                            borderColor: player._nation?.theme?.accent || GOLD,
-                          }}
+                {/* Position slots */}
+                {POSITIONS.map(pos => {
+                  const player = squad[pos.id];
+                  const isEmpty = !player;
+                  const canPlace = flowStep === 'placing' && isEmpty;
+
+                  return (
+                    <div key={pos.id} className="absolute z-10 flex flex-col items-center" style={pos.style}>
+                      {player ? (
+                        /* ── Filled slot ── */
+                        <div className="flex flex-col items-center">
+                          <div
+                            className="w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center border-2 shadow-[0_0_15px_rgba(0,0,0,0.5)] overflow-hidden relative"
+                            style={{
+                              background: `linear-gradient(135deg, ${player._nation?.theme?.primary || '#333'}, ${player._nation?.theme?.secondary || '#111'})`,
+                              borderColor: player._nation?.theme?.accent || GOLD,
+                            }}
+                          >
+                            <img
+                              src={`https://flagcdn.com/w80/${player._nation?.flagCode}.png`}
+                              alt=""
+                              className="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-overlay"
+                              onError={e => { e.target.style.display = 'none'; }}
+                            />
+                            <span className="relative z-10 text-white font-heading font-bold text-lg drop-shadow-md">
+                              {player.shirtNumber}
+                            </span>
+                          </div>
+                          <div className="mt-1 p-1 bg-black/90 rounded border border-white/20 w-20 flex flex-col items-center justify-center">
+                            <div style={{ fontFamily: 'sans-serif', fontSize: '10px', lineHeight: '1.2', color: '#ffffff', textAlign: 'center', width: '100%', wordWrap: 'break-word' }}>
+                              {player.name}
+                            </div>
+                            <div className="flex items-center justify-center gap-1 mt-1">
+                              <img src={`https://flagcdn.com/w20/${player._nation?.flagCode}.png`} alt="" className="w-3 h-2" />
+                              <span style={{ fontFamily: 'sans-serif', fontSize: '9px', fontWeight: 'bold', color: GOLD }}>{pos.label}</span>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        /* ── Empty slot ── */
+                        <button
+                          onClick={() => canPlace && placeOnPitch(pos.id)}
+                          className={`w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center border-2 border-dashed shadow-lg backdrop-blur-sm transition-all duration-300 ${
+                            canPlace
+                              ? 'border-[#FFD700] bg-[#FFD700]/25 scale-110 shadow-[0_0_25px_rgba(255,215,0,0.5)] animate-pulse cursor-pointer'
+                              : 'border-white/40 bg-black/40 cursor-default'
+                          }`}
                         >
-                          <img
-                            src={`https://flagcdn.com/w80/${player._nation?.flagCode}.png`}
-                            alt=""
-                            className="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-overlay"
-                            onError={e => { e.target.style.display = 'none'; }}
-                          />
-                          <span className="relative z-10 text-white font-heading font-bold text-lg drop-shadow-md">
-                            {player.shirtNumber}
+                          <span className={`font-bold text-xs tracking-wider ${canPlace ? 'text-[#FFD700]' : 'text-white/60'}`}>
+                            {pos.label}
                           </span>
-                        </div>
-                        <div className="mt-1 p-1 bg-black/90 rounded border border-white/20 w-20 flex flex-col items-center justify-center">
-                          <div style={{ fontFamily: 'sans-serif', fontSize: '10px', lineHeight: '1.2', color: '#ffffff', textAlign: 'center', width: '100%', wordWrap: 'break-word' }}>
-                            {player.name}
-                          </div>
-                          <div className="flex items-center justify-center gap-1 mt-1">
-                            <img src={`https://flagcdn.com/w20/${player._nation?.flagCode}.png`} alt="" className="w-3 h-2" />
-                            <span style={{ fontFamily: 'sans-serif', fontSize: '9px', fontWeight: 'bold', color: GOLD }}>{pos.label}</span>
-                          </div>
-                        </div>
-                      </div>
-                    ) : (
-                      /* ── Empty slot ── */
-                      <button
-                        onClick={() => canPlace && placeOnPitch(pos.id)}
-                        className={`w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center border-2 border-dashed shadow-lg backdrop-blur-sm transition-all duration-300 ${
-                          canPlace
-                            ? 'border-[#FFD700] bg-[#FFD700]/25 scale-110 shadow-[0_0_25px_rgba(255,215,0,0.5)] animate-pulse cursor-pointer'
-                            : 'border-white/40 bg-black/40 cursor-default'
-                        }`}
-                      >
-                        <span className={`font-bold text-xs tracking-wider ${canPlace ? 'text-[#FFD700]' : 'text-white/60'}`}>
-                          {pos.label}
-                        </span>
-                      </button>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
+                        </button>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
           {/* ═══ RIGHT PANEL ═══ */}
@@ -510,7 +714,7 @@ const SquadBuilder = () => {
                   </div>
 
                   <p className="text-white/50 text-sm mb-4">
-                    Click an <span className="font-bold" style={{ color: GOLD }}>empty position</span> on the pitch to place this player.
+                    Click an <span className="font-bold" style={{ color: GOLD }}>empty position</span> {isMobile ? 'in the list above' : 'on the pitch'} to place this player.
                   </p>
 
                   <button
@@ -526,6 +730,146 @@ const SquadBuilder = () => {
               )}
 
             </AnimatePresence>
+          </div>
+        </div>
+
+        {/* ── HIDDEN EXPORT POSTER (FOR LINEUP ANNOUNCEMENT Capture) ── */}
+        <div
+          id="lineup-announcement-export"
+          className="absolute"
+          style={{
+            left: '-9999px',
+            top: '0',
+            width: '800px',
+            height: '1200px',
+            padding: '60px 40px',
+            background: 'linear-gradient(135deg, #050508 0%, #12121c 100%)',
+            color: '#fff',
+            fontFamily: "'Inter', sans-serif",
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            border: '10px solid #BF953F',
+            boxShadow: 'inset 0 0 100px rgba(0, 0, 0, 0.9)',
+          }}
+        >
+          {/* Background texture/elements */}
+          <div className="absolute inset-0 opacity-10 pointer-events-none" style={{
+            backgroundImage: 'radial-gradient(circle at 20% 30%, #BF953F 0%, transparent 60%), radial-gradient(circle at 80% 70%, #8b6914 0%, transparent 50%)'
+          }} />
+          
+          {/* Header */}
+          <div className="text-center relative z-10 flex flex-col items-center">
+            <div className="text-xs uppercase tracking-[0.4em] font-accent text-[#BF953F] font-bold mb-2">
+              FIFA World Cup 2026
+            </div>
+            <h2
+              className="text-5xl font-heading font-black tracking-[0.1em] uppercase mb-1"
+              style={{
+                background: GOLD_GRADIENT,
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
+            >
+              STARTING XI
+            </h2>
+            <div className="h-[2px] w-48 bg-gradient-to-r from-transparent via-[#BF953F] to-transparent my-3" />
+            <p className="text-sm font-accent text-white/60 tracking-wider">
+              SQUAD BUILDER LINEUP ANNOUNCEMENT
+            </p>
+          </div>
+
+          {/* Players List */}
+          <div className="my-8 flex flex-col gap-[14px] relative z-10">
+            {POSITIONS_MOBILE.map(pos => {
+              const player = squad[pos.id];
+              
+              if (player) {
+                const theme = getNationTheme(player._nation);
+                return (
+                  <div
+                    key={pos.id}
+                    className="flex items-center justify-between p-[14px] rounded-lg border shadow-md overflow-hidden relative"
+                    style={{
+                      background: `linear-gradient(135deg, ${theme.primary} 0%, ${theme.secondary} 100%)`,
+                      borderColor: theme.accent || GOLD,
+                    }}
+                  >
+                    <div className="absolute inset-0 bg-black/45 z-0" />
+                    <img
+                      src={`https://flagcdn.com/w320/${theme.flagCode}.png`}
+                      alt=""
+                      className="absolute right-0 top-0 w-36 h-full object-cover opacity-25 mix-blend-overlay pointer-events-none z-0"
+                    />
+                    
+                    <div className="relative z-10 flex items-center gap-4">
+                      <div
+                        className="w-9 h-9 rounded-full flex items-center justify-center border font-heading font-bold text-sm text-white flex-shrink-0"
+                        style={{
+                          background: `linear-gradient(135deg, ${theme.primary}, ${theme.accent || theme.secondary})`,
+                          borderColor: theme.accent || GOLD,
+                        }}
+                      >
+                        {player.shirtNumber}
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="font-accent font-black text-base tracking-wide text-white uppercase">
+                          {player.name}
+                        </span>
+                        <span className="text-[10px] font-accent text-white/70 uppercase">
+                          {player.club}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="relative z-10 flex items-center gap-3">
+                      <span
+                        className="font-heading font-black text-xs px-2 py-0.5 rounded border border-white/20 uppercase"
+                        style={{ color: '#fff', backgroundColor: 'rgba(0, 0, 0, 0.4)' }}
+                      >
+                        {pos.positionLabel}
+                      </span>
+                      <img
+                        src={`https://flagcdn.com/w40/${theme.flagCode}.png`}
+                        alt=""
+                        className="w-7 h-auto rounded border border-white/10"
+                      />
+                    </div>
+                  </div>
+                );
+              } else {
+                return (
+                  <div
+                    key={pos.id}
+                    className="flex items-center justify-between p-[14px] rounded-lg border border-white/10 bg-white/[0.03] opacity-60"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="w-9 h-9 rounded-full border border-dashed border-white/20 flex items-center justify-center text-white/30 font-bold text-xs">
+                        {pos.positionLabel}
+                      </div>
+                      <span className="font-accent font-black text-sm uppercase text-white/30 tracking-wider">
+                        {pos.placeholder}
+                      </span>
+                    </div>
+                    <span className="text-[10px] font-accent text-white/20 uppercase tracking-widest">
+                      VACANT
+                    </span>
+                  </div>
+                );
+              }
+            })}
+          </div>
+
+          {/* Footer */}
+          <div className="text-center relative z-10 flex flex-col items-center">
+            <div className="h-[1px] w-full bg-white/10 mb-4" />
+            <div className="text-[10px] font-accent text-[#BF953F] tracking-[0.3em] uppercase font-bold">
+              United 2026 • Canada • Mexico • USA
+            </div>
+            <div className="text-[9px] text-white/30 font-accent mt-1">
+              Generated via Squad Builder Fan Play
+            </div>
           </div>
         </div>
       </div>
