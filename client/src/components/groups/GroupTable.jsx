@@ -2,8 +2,19 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const GroupTable = ({ letter, teams, selectedNationCode, theme }) => {
-  // Sort teams by rank just to have a deterministic order for now since all have 0 points
-  const sortedTeams = [...teams].sort((a, b) => a.fifaRank - b.fifaRank);
+  // Sort teams: Points -> Goal Difference -> Goals For -> FIFA Rank
+  const sortedTeams = [...teams].sort((a, b) => {
+    if ((b.points || 0) !== (a.points || 0)) {
+      return (b.points || 0) - (a.points || 0);
+    }
+    if ((b.goalDifference || 0) !== (a.goalDifference || 0)) {
+      return (b.goalDifference || 0) - (a.goalDifference || 0);
+    }
+    if ((b.goalsFor || 0) !== (a.goalsFor || 0)) {
+      return (b.goalsFor || 0) - (a.goalsFor || 0);
+    }
+    return (a.fifaRank || 999) - (b.fifaRank || 999);
+  });
 
   return (
     <div className="bg-[#1a1a1a] rounded-xl overflow-hidden border border-white/10 shadow-2xl flex flex-col h-full">
@@ -65,13 +76,15 @@ const GroupTable = ({ letter, teams, selectedNationCode, theme }) => {
                 </span>
               </div>
               
-              {/* Stats (Mocked at 0 for now) */}
-              <div className="col-span-1 text-center text-sm text-white/50">0</div>
-              <div className="col-span-1 text-center text-sm text-white/50">0</div>
-              <div className="col-span-1 text-center text-sm text-white/50">0</div>
-              <div className="col-span-1 text-center text-sm text-white/50">0</div>
-              <div className="col-span-1 text-center text-sm text-white/50">0</div>
-              <div className="col-span-1 text-center text-sm font-bold text-white">0</div>
+              {/* Stats */}
+              <div className="col-span-1 text-center text-sm text-white/50">{team.played || 0}</div>
+              <div className="col-span-1 text-center text-sm text-white/50">{team.wins || 0}</div>
+              <div className="col-span-1 text-center text-sm text-white/50">{team.draws || 0}</div>
+              <div className="col-span-1 text-center text-sm text-white/50">{team.losses || 0}</div>
+              <div className="col-span-1 text-center text-sm text-white/50">
+                {team.goalDifference > 0 ? `+${team.goalDifference}` : team.goalDifference || 0}
+              </div>
+              <div className="col-span-1 text-center text-sm font-bold text-white">{team.points || 0}</div>
             </motion.div>
           );
         })}

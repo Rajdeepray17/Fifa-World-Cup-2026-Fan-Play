@@ -61,6 +61,45 @@ const nationSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    played: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    wins: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    draws: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    losses: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    goalsFor: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    goalsAgainst: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    goalDifference: {
+      type: Number,
+      default: 0,
+    },
+    points: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
   },
   {
     timestamps: true,

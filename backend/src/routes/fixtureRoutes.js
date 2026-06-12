@@ -4,6 +4,7 @@ import {
   getFixtureById,
   getFixturesByGroup,
   getFixturesByRound,
+  updateFixtureScore,
 } from '../controllers/fixtureController.js';
 import { validateObjectId, validateGroup, validateRound } from '../middleware/validate.js';
 
@@ -13,5 +14,6 @@ router.get('/', getFixtures);
 router.get('/group/:group', validateGroup, getFixturesByGroup);
 router.get('/round/:round', validateRound, getFixturesByRound);
 router.get('/:id', validateObjectId('id'), getFixtureById);
+router.put('/:id/score', validateObjectId('id'), updateFixtureScore);
 
 export default router;

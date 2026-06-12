@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const MatchCard = ({ fixture, selectedNationCode, theme }) => {
+const MatchCard = ({ fixture, selectedNationCode, theme, onClick }) => {
   // Timezone logic: Convert to IST natively
   const matchDate = new Date(fixture.date);
   const formattedTime = matchDate.toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' });
@@ -16,14 +16,27 @@ const MatchCard = ({ fixture, selectedNationCode, theme }) => {
   const isAwaySelected = selectedNationCode === away.code;
   const isMatchSelected = isHomeSelected || isAwaySelected;
 
+  const isHomeWinner = fixture.status === 'Completed' && fixture.winner && home._id && (fixture.winner._id === home._id || fixture.winner === home._id);
+  const isAwayWinner = fixture.status === 'Completed' && fixture.winner && away._id && (fixture.winner._id === away._id || fixture.winner === away._id);
+  const winnerTheme = isHomeWinner ? home.theme : (isAwayWinner ? away.theme : null);
+
+  // Theme highlighting priority:
+  // 1. User's selected nation (if playing)
+  // 2. Winning team's theme (if match completed)
+  const activeTheme = isMatchSelected ? theme : winnerTheme;
+  const hasActiveHighlight = isMatchSelected || !!winnerTheme;
+
   return (
     <div 
+      onClick={onClick}
       className={`relative bg-[#1a1a1a] rounded-xl overflow-hidden border transition-all ${
-        isMatchSelected ? 'border-transparent shadow-lg' : 'border-white/10 hover:border-white/20'
+        onClick ? 'cursor-pointer hover:scale-[1.01] hover:bg-[#202020]' : ''
+      } ${
+        hasActiveHighlight ? 'border-transparent shadow-lg' : 'border-white/10 hover:border-white/20'
       }`}
       style={{
-        boxShadow: isMatchSelected ? `0 0 20px ${theme?.primary}40` : '',
-        borderColor: isMatchSelected ? theme?.primary : ''
+        boxShadow: hasActiveHighlight ? `0 0 20px ${activeTheme?.primary}30` : '',
+        borderColor: hasActiveHighlight ? activeTheme?.primary : ''
       }}
     >
       {/* Top Bar */}
@@ -44,7 +57,14 @@ const MatchCard = ({ fixture, selectedNationCode, theme }) => {
         
         {/* Home Team */}
         <div className="flex flex-col items-center justify-center text-center space-y-2">
-          <div className={`w-16 h-12 md:w-24 md:h-16 flex items-center justify-center overflow-hidden rounded shadow-lg ${isHomeSelected ? 'ring-2 ring-offset-2 ring-offset-[#1a1a1a]' : ''}`} style={{ ringColor: isHomeSelected ? theme?.primary : '' }}>
+          <div 
+            className={`w-16 h-12 md:w-24 md:h-16 flex items-center justify-center overflow-hidden rounded shadow-lg transition-all ${
+              isHomeSelected || isHomeWinner ? 'ring-2 ring-offset-2 ring-offset-[#1a1a1a]' : ''
+            }`} 
+            style={{ 
+              borderColor: isHomeSelected ? theme?.primary : (isHomeWinner ? home.theme?.primary : 'transparent') 
+            }}
+          >
             {home.flagCode === 'un' ? (
                <div className="w-full h-full bg-white/5 flex items-center justify-center">
                  <span className="text-white/20 font-bold text-xl">?</span>
@@ -58,33 +78,65 @@ const MatchCard = ({ fixture, selectedNationCode, theme }) => {
               />
             )}
           </div>
-          <span className={`font-outfit font-bold text-sm md:text-lg ${isHomeSelected ? 'text-white' : 'text-white/80'}`}>
+          <span 
+            className="font-outfit font-bold text-sm md:text-lg transition-colors"
+            style={{
+              color: isHomeSelected ? theme?.primary : (isHomeWinner ? home.theme?.primary : 'rgba(255, 255, 255, 0.8)')
+            }}
+          >
             {home.name}
           </span>
         </div>
 
         {/* Center VS & Time */}
         <div className="flex flex-col items-center justify-center text-center">
-          <div className="text-2xl md:text-3xl font-bold font-outfit text-white mb-1">
-             {formattedTime}
-          </div>
-          {fixture.status === 'Scheduled' && (
-            <span className="text-xs font-semibold text-white/40 tracking-widest uppercase">
-              VS
-            </span>
-          )}
-          {fixture.status !== 'Scheduled' && (
-            <div className="flex items-center space-x-2 text-[#FFD700] font-bold text-xl">
-               <span>{fixture.score.home}</span>
-               <span className="text-white/30">-</span>
-               <span>{fixture.score.away}</span>
+          {fixture.status === 'Scheduled' ? (
+            <>
+              <div className="text-2xl md:text-3xl font-bold font-outfit text-white mb-1">
+                 {formattedTime}
+              </div>
+              <span className="text-xs font-semibold text-white/40 tracking-widest uppercase">
+                VS
+              </span>
+            </>
+          ) : (
+            <div className="flex flex-col items-center">
+              <div className="flex items-center space-x-3 text-[#FFD700] font-bold text-3xl md:text-4xl font-outfit">
+                 <span>{fixture.score.home}</span>
+                 <span className="text-white/30">-</span>
+                 <span>{fixture.score.away}</span>
+              </div>
+              {fixture.status === 'Live' ? (
+                <span className="text-xs font-bold text-red-500 tracking-wider uppercase animate-pulse mt-1.5 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping"></span>
+                  LIVE
+                </span>
+              ) : (
+                <div className="flex flex-col items-center mt-1">
+                  <span className="text-[10px] font-bold text-white/40 tracking-widest uppercase">
+                    FINAL
+                  </span>
+                  {fixture.score.penalties?.home !== null && fixture.score.penalties?.away !== null && (
+                    <span className="text-[10px] font-bold text-[#FFD700] mt-0.5">
+                      ({fixture.score.penalties.home} - {fixture.score.penalties.away} pens)
+                    </span>
+                  )}
+                </div>
+              )}
             </div>
           )}
         </div>
 
         {/* Away Team */}
         <div className="flex flex-col items-center justify-center text-center space-y-2">
-          <div className={`w-16 h-12 md:w-24 md:h-16 flex items-center justify-center overflow-hidden rounded shadow-lg ${isAwaySelected ? 'ring-2 ring-offset-2 ring-offset-[#1a1a1a]' : ''}`} style={{ ringColor: isAwaySelected ? theme?.primary : '' }}>
+          <div 
+            className={`w-16 h-12 md:w-24 md:h-16 flex items-center justify-center overflow-hidden rounded shadow-lg transition-all ${
+              isAwaySelected || isAwayWinner ? 'ring-2 ring-offset-2 ring-offset-[#1a1a1a]' : ''
+            }`} 
+            style={{ 
+              borderColor: isAwaySelected ? theme?.primary : (isAwayWinner ? away.theme?.primary : 'transparent') 
+            }}
+          >
             {away.flagCode === 'un' ? (
                <div className="w-full h-full bg-white/5 flex items-center justify-center">
                  <span className="text-white/20 font-bold text-xl">?</span>
@@ -98,7 +150,12 @@ const MatchCard = ({ fixture, selectedNationCode, theme }) => {
               />
             )}
           </div>
-          <span className={`font-outfit font-bold text-sm md:text-lg ${isAwaySelected ? 'text-white' : 'text-white/80'}`}>
+          <span 
+            className="font-outfit font-bold text-sm md:text-lg transition-colors"
+            style={{
+              color: isAwaySelected ? theme?.primary : (isAwayWinner ? away.theme?.primary : 'rgba(255, 255, 255, 0.8)')
+            }}
+          >
             {away.name}
           </span>
         </div>

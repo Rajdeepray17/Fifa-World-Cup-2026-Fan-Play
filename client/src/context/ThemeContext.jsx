@@ -86,6 +86,25 @@ export function ThemeProvider({ children }) {
     applyThemeToDOM(defaultTheme.primary, defaultTheme.secondary, defaultTheme.accent);
   }, []);
 
+  /* Refetch global data */
+  const refreshGlobalData = useCallback(async () => {
+    try {
+      const nationsPromise = fetch(`${API_URL}/nations?limit=100`).then(r => r.json());
+      const fixturesPromise = fetch(`${API_URL}/fixtures?limit=104&sort=date`).then(r => r.json());
+
+      const [nationsRes, fixturesRes] = await Promise.all([nationsPromise, fixturesPromise]);
+
+      if (nationsRes.success) {
+        setGlobalNations(nationsRes.data);
+      }
+      if (fixturesRes.success) {
+        setGlobalFixtures(fixturesRes.data);
+      }
+    } catch (err) {
+      console.error("Failed to refresh global data:", err);
+    }
+  }, []);
+
   const value = {
     selectedNation,
     isNationSelected,
@@ -94,6 +113,7 @@ export function ThemeProvider({ children }) {
     nations,
     globalNations,
     globalFixtures,
+    refreshGlobalData,
     isDataLoaded: Boolean(globalNations && globalFixtures),
   };
 

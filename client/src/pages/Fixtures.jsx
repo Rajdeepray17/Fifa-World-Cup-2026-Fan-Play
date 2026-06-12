@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 import { API_URL } from '../config';
 import MatchCard from '../components/fixtures/MatchCard';
+import ScoreUpdateModal from '../components/fixtures/ScoreUpdateModal';
 
 const ROUNDS = [
   'All',
@@ -21,7 +22,14 @@ const Fixtures = () => {
   const [filteredFixtures, setFilteredFixtures] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedRound, setSelectedRound] = useState('All');
+  const [selectedMatch, setSelectedMatch] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const { selectedNation, globalFixtures } = useTheme();
+
+  useEffect(() => {
+    setIsAdmin(localStorage.getItem('fifa-wc2026-admin-pin') === 'BRAZIL0407');
+  }, []);
 
   useEffect(() => {
     if (globalFixtures) {
@@ -159,12 +167,25 @@ const Fixtures = () => {
                     fixture={fixture} 
                     selectedNationCode={selectedNation?.code} 
                     theme={selectedNation?.theme} 
+                    onClick={isAdmin ? () => {
+                      setSelectedMatch(fixture);
+                      setIsModalOpen(true);
+                    } : null}
                   />
                 </motion.div>
               ))
             )}
           </AnimatePresence>
         </div>
+
+        <ScoreUpdateModal 
+          isOpen={isModalOpen}
+          onClose={() => {
+            setIsModalOpen(false);
+            setSelectedMatch(null);
+          }}
+          fixture={selectedMatch}
+        />
 
       </div>
     </div>

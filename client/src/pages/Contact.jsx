@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 
@@ -7,9 +7,32 @@ const Contact = () => {
   
   const themeColor = selectedNation?.theme?.primary || '#FFD700';
 
+  const [pin, setPin] = useState('');
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [feedback, setFeedback] = useState('');
+
   useEffect(() => {
     window.scrollTo(0, 0);
+    setIsAdmin(localStorage.getItem('fifa-wc2026-admin-pin') === 'BRAZIL0407');
   }, []);
+
+  const handleAdminVerify = (e) => {
+    e.preventDefault();
+    if (pin === 'BRAZIL0407') {
+      localStorage.setItem('fifa-wc2026-admin-pin', pin);
+      setIsAdmin(true);
+      setFeedback('Authorization successful.');
+      setPin('');
+    } else {
+      setFeedback('Invalid authorization passcode.');
+    }
+  };
+
+  const handleAdminLock = () => {
+    localStorage.removeItem('fifa-wc2026-admin-pin');
+    setIsAdmin(false);
+    setFeedback('Session locked.');
+  };
 
   const skills = [
     { name: "React", level: 90 },
@@ -137,6 +160,61 @@ const Contact = () => {
                 </motion.a>
               ))}
            </div>
+        </motion.section>
+
+        {/* Admin Verification Box */}
+        <motion.section 
+          initial={{ opacity: 0 }} 
+          whileInView={{ opacity: 1 }} 
+          viewport={{ once: true }}
+          className="text-center pt-8 border-t border-white/10 max-w-md mx-auto relative z-10"
+        >
+          <div className="bg-[#101010]/80 backdrop-blur-md border border-white/5 rounded-2xl p-6 shadow-xl space-y-4">
+            <h4 className="text-sm font-semibold tracking-wider text-white/50 uppercase">
+              Developer Authorization
+            </h4>
+            
+            {isAdmin ? (
+              <div className="space-y-3">
+                <p className="text-xs font-bold text-green-400">
+                  ✓ Authorized Access Active
+                </p>
+                <button
+                  onClick={handleAdminLock}
+                  className="w-full bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-semibold py-2.5 rounded-xl border border-red-500/20 transition-all cursor-pointer"
+                >
+                  Lock Session
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleAdminVerify} className="space-y-3">
+                <p className="text-[10px] text-white/30 italic">
+                  This section is restricted to authorized project developers only.
+                </p>
+                <div className="flex gap-2">
+                  <input
+                    type="password"
+                    placeholder="Passcode"
+                    value={pin}
+                    onChange={(e) => setPin(e.target.value)}
+                    className="flex-1 bg-black border border-white/10 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-white/30 text-center transition-colors font-mono tracking-widest text-white"
+                  />
+                  <button
+                    type="submit"
+                    className="bg-white/10 hover:bg-white/20 border border-white/10 text-white text-xs font-semibold px-4 py-2 rounded-xl transition-all cursor-pointer"
+                  >
+                    Verify
+                  </button>
+                </div>
+              </form>
+            )}
+
+            {feedback && (
+              <p className={`text-[10px] font-semibold ${feedback.includes('successful') || feedback.includes('Active') ? 'text-green-400' : 'text-red-400'}`}>
+                {feedback}
+              </p>
+            )}
+          </div>
         </motion.section>
 
       </div>
