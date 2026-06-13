@@ -105,25 +105,77 @@ export default function Navbar() {
           {/* Next Match Widget (Center) */}
           {nextMatch && (
             <div className="flex-1 flex justify-center mx-2 sm:mx-4">
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-3 px-3 py-1 sm:py-1.5 rounded-full border border-white/10" style={{ background: 'rgba(0,0,0,0.5)' }}>
-                <div className="flex items-center gap-2">
-                {nextMatch.homeTeam ? (
-                  <img src={`https://flagcdn.com/w40/${nextMatch.homeTeam.flagCode.toLowerCase()}.png`} alt={nextMatch.homeTeam.code} className="w-4 h-4 sm:w-5 sm:h-5 rounded-full object-cover border border-white/20" />
-                ) : (
-                  <span className="text-[9px] sm:text-[10px] font-bold text-white/50">{nextMatch.homePlaceholder}</span>
-                )}
-                <span className="text-[9px] sm:text-[10px] font-black text-white/40 italic">VS</span>
-                {nextMatch.awayTeam ? (
-                  <img src={`https://flagcdn.com/w40/${nextMatch.awayTeam.flagCode.toLowerCase()}.png`} alt={nextMatch.awayTeam.code} className="w-4 h-4 sm:w-5 sm:h-5 rounded-full object-cover border border-white/20" />
-                ) : (
-                  <span className="text-[9px] sm:text-[10px] font-bold text-white/50">{nextMatch.awayPlaceholder}</span>
-                )}
+              <div 
+                className="flex items-center gap-2 sm:gap-3.5 px-3 py-1.5 sm:px-5 sm:py-2 rounded-full border border-white/10 shadow-lg hover:border-white/20 transition-all duration-300 bg-black/60 backdrop-blur-md"
+              >
+                {/* Next Match Badge (Only on large screens) */}
+                <div className="hidden lg:flex items-center gap-1.5 bg-[#FFD700]/10 border border-[#FFD700]/20 rounded-full px-2.5 py-0.5 select-none">
+                  <span className="w-1.5 h-1.5 bg-[#FFD700] rounded-full animate-pulse"></span>
+                  <span className="text-[9px] font-bold tracking-wider text-[#FFD700] uppercase font-outfit">Next Match</span>
+                </div>
+
+                {/* Matchup Details */}
+                <div className="flex items-center gap-1.5 sm:gap-3">
+                  {/* Home Team */}
+                  <div className="flex items-center gap-1.5">
+                    {nextMatch.homeTeam ? (
+                      <>
+                        <img 
+                          src={`https://flagcdn.com/w40/${nextMatch.homeTeam.flagCode.toLowerCase()}.png`} 
+                          alt={nextMatch.homeTeam.name} 
+                          className="w-4 h-4 sm:w-5 sm:h-5 rounded-full object-cover border border-white/20 shadow-sm" 
+                        />
+                        <span className="hidden md:inline-block text-[10px] sm:text-xs font-bold text-white uppercase tracking-wider font-outfit">
+                          {nextMatch.homeTeam.name}
+                        </span>
+                        <span className="hidden sm:inline-block md:hidden text-[10px] font-bold text-white uppercase tracking-wider font-outfit">
+                          {nextMatch.homeTeam.code}
+                        </span>
+                      </>
+                    ) : (
+                      <span className="text-[9px] sm:text-[10px] font-bold text-white/60 tracking-wider">
+                        {nextMatch.homeTeamPlaceholder || nextMatch.homePlaceholder || 'TBD'}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* VS Divider */}
+                  <span className="font-outfit font-black italic text-[9px] sm:text-[11px] text-white/30 tracking-widest px-0.5">
+                    VS
+                  </span>
+
+                  {/* Away Team */}
+                  <div className="flex items-center gap-1.5">
+                    {nextMatch.awayTeam ? (
+                      <>
+                        <span className="hidden md:inline-block text-[10px] sm:text-xs font-bold text-white uppercase tracking-wider font-outfit">
+                          {nextMatch.awayTeam.name}
+                        </span>
+                        <span className="hidden sm:inline-block md:hidden text-[10px] font-bold text-white uppercase tracking-wider font-outfit">
+                          {nextMatch.awayTeam.code}
+                        </span>
+                        <img 
+                          src={`https://flagcdn.com/w40/${nextMatch.awayTeam.flagCode.toLowerCase()}.png`} 
+                          alt={nextMatch.awayTeam.name} 
+                          className="w-4 h-4 sm:w-5 sm:h-5 rounded-full object-cover border border-white/20 shadow-sm" 
+                        />
+                      </>
+                    ) : (
+                      <span className="text-[9px] sm:text-[10px] font-bold text-white/60 tracking-wider">
+                        {nextMatch.awayTeamPlaceholder || nextMatch.awayPlaceholder || 'TBD'}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Separator line */}
+                <div className="w-px h-3.5 bg-white/20"></div>
+
+                {/* Date / Kickoff Time */}
+                <div className="text-[8px] sm:text-[11px] font-bold tracking-wider text-[#FFD700] font-outfit uppercase whitespace-nowrap">
+                  {new Date(nextMatch.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }).toUpperCase()} • {nextMatch.kickoffIST}
+                </div>
               </div>
-              <div className="hidden sm:block w-px h-3 bg-white/20"></div>
-              <div className="text-[8px] sm:text-[10px] font-accent tracking-wider text-[#FFD700] whitespace-nowrap">
-                {new Date(nextMatch.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }).toUpperCase()} • {nextMatch.kickoffIST}
-              </div>
-            </div>
             </div>
           )}
 
