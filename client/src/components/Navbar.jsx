@@ -103,7 +103,7 @@ export default function Navbar() {
 
           {/* Next Match Widget (Center) */}
           {nextMatch && (
-            <div className="flex-1 flex justify-center mx-2 sm:mx-4 flex-shrink-0">
+            <div className="flex md:hidden xl:flex flex-1 justify-center mx-2 sm:mx-4 flex-shrink-0">
               <div 
                 className="flex items-center gap-2 sm:gap-3.5 px-3 py-1.5 sm:px-5 sm:py-2 rounded-full border border-white/10 shadow-lg hover:border-white/20 transition-all duration-300 bg-black/60 backdrop-blur-md flex-shrink-0"
               >
