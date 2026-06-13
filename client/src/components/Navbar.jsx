@@ -63,12 +63,11 @@ export default function Navbar() {
         animate={{ y: isHidden ? -100 : 0 }}
         transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
       >
-        <div className="glass-strong rounded-2xl mt-3 px-4 md:px-6 py-2.5 flex items-center justify-between relative">
-          {/* Brand Block (Left side) */}
-          <Link to="/" className="flex items-center gap-3 group">
+        <div className="glass-strong rounded-2xl mt-3 px-4 md:px-6 py-2.5 flex items-center justify-between relative">           {/* Brand Block (Left side) */}
+          <Link to="/" className="flex items-center gap-3 group flex-shrink-0">
             {/* FIFA Logo Box */}
             <div
-              className="w-9 h-9 rounded-lg flex items-center justify-center overflow-hidden border border-white/10"
+              className="w-9 h-9 rounded-lg flex items-center justify-center overflow-hidden border border-white/10 flex-shrink-0"
               style={{
                 background: `linear-gradient(135deg, var(--theme-primary), var(--theme-accent))`,
               }}
@@ -80,9 +79,9 @@ export default function Navbar() {
               />
             </div>
 
-            <div className="hidden sm:flex flex-col justify-center text-left">
+            <div className="hidden sm:flex flex-col justify-center text-left flex-shrink-0">
               <p 
-                className="font-heading text-xs sm:text-sm md:text-base font-bold tracking-wider leading-none"
+                className="font-heading text-xs sm:text-sm md:text-base font-bold tracking-wider leading-none whitespace-nowrap"
                 style={{
                   background: 'linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C)',
                   WebkitBackgroundClip: 'text',
@@ -92,7 +91,7 @@ export default function Navbar() {
               >
                 FIFA World Cup 2026
               </p>
-              <p className="text-[9px] sm:text-[10px] font-accent tracking-widest uppercase mt-1 select-none leading-none">
+              <p className="text-[9px] sm:text-[10px] font-accent tracking-widest uppercase mt-1 select-none leading-none whitespace-nowrap">
                 <span className="font-bold" style={{ color: '#60A5FA' }}>USA</span>{' '}
                 <span className="text-white/40">-</span>{' '}
                 <span className="font-bold" style={{ color: '#F87171' }}>CANADA</span>{' '}
@@ -125,10 +124,10 @@ export default function Navbar() {
                           alt={nextMatch.homeTeam.name} 
                           className="w-4 h-4 sm:w-5 sm:h-5 rounded-full object-cover border border-white/20 shadow-sm flex-shrink-0" 
                         />
-                        <span className="hidden md:inline-block text-[10px] sm:text-xs font-bold text-white uppercase tracking-wider font-outfit whitespace-nowrap flex-shrink-0">
+                        <span className="hidden xl:inline-block text-[10px] sm:text-xs font-bold text-white uppercase tracking-wider font-outfit whitespace-nowrap flex-shrink-0">
                           {nextMatch.homeTeam.name}
                         </span>
-                        <span className="hidden sm:inline-block md:hidden text-[10px] font-bold text-white uppercase tracking-wider font-outfit whitespace-nowrap flex-shrink-0">
+                        <span className="hidden sm:inline-block xl:hidden text-[10px] font-bold text-white uppercase tracking-wider font-outfit whitespace-nowrap flex-shrink-0">
                           {nextMatch.homeTeam.code}
                         </span>
                       </>
@@ -148,10 +147,10 @@ export default function Navbar() {
                   <div className="flex items-center gap-1.5 flex-shrink-0">
                     {nextMatch.awayTeam ? (
                       <>
-                        <span className="hidden md:inline-block text-[10px] sm:text-xs font-bold text-white uppercase tracking-wider font-outfit whitespace-nowrap flex-shrink-0">
+                        <span className="hidden xl:inline-block text-[10px] sm:text-xs font-bold text-white uppercase tracking-wider font-outfit whitespace-nowrap flex-shrink-0">
                           {nextMatch.awayTeam.name}
                         </span>
-                        <span className="hidden sm:inline-block md:hidden text-[10px] font-bold text-white uppercase tracking-wider font-outfit whitespace-nowrap flex-shrink-0">
+                        <span className="hidden sm:inline-block xl:hidden text-[10px] font-bold text-white uppercase tracking-wider font-outfit whitespace-nowrap flex-shrink-0">
                           {nextMatch.awayTeam.code}
                         </span>
                         <img 
