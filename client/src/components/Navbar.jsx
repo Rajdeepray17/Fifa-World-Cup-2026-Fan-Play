@@ -100,21 +100,19 @@ export default function Navbar() {
               </p>
             </div>
           </Link>
-
           {/* Next Match Widget (Center) */}
           {nextMatch && (
-            <div className="flex md:hidden xl:flex flex-1 justify-center mx-2 sm:mx-4 flex-shrink-0">
+            <div className="flex md:hidden lg:flex flex-1 justify-center mx-2 sm:mx-4 flex-shrink-0">
               <div 
-                className="flex items-center gap-2 sm:gap-3.5 px-3 py-1.5 sm:px-5 sm:py-2 rounded-full border border-white/10 shadow-lg hover:border-white/20 transition-all duration-300 bg-black/60 backdrop-blur-md flex-shrink-0"
+                className="flex items-center gap-1.5 sm:gap-2.5 px-3 py-1.5 sm:px-4 sm:py-1.5 rounded-full border border-white/10 shadow-lg hover:border-white/20 transition-all duration-300 bg-black/60 backdrop-blur-md flex-shrink-0"
               >
-                {/* Next Match Badge (Only on large screens) */}
-                <div className="hidden lg:flex items-center gap-1.5 bg-[#FFD700]/10 border border-[#FFD700]/20 rounded-full px-2.5 py-0.5 select-none flex-shrink-0">
-                  <span className="w-1.5 h-1.5 bg-[#FFD700] rounded-full animate-pulse"></span>
-                  <span className="text-[9px] font-bold tracking-wider text-[#FFD700] uppercase font-outfit flex-shrink-0">Next Match</span>
+                {/* Live Pulse Dot */}
+                <div className="flex items-center justify-center flex-shrink-0 ml-0.5">
+                  <span className="w-1.5 h-1.5 bg-[#FFD700] rounded-full animate-pulse flex-shrink-0"></span>
                 </div>
 
                 {/* Matchup Details */}
-                <div className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
+                <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
                   {/* Home Team */}
                   <div className="flex items-center gap-1.5 flex-shrink-0">
                     {nextMatch.homeTeam ? (
@@ -122,12 +120,9 @@ export default function Navbar() {
                         <img 
                           src={`https://flagcdn.com/w40/${nextMatch.homeTeam.flagCode.toLowerCase()}.png`} 
                           alt={nextMatch.homeTeam.name} 
-                          className="w-4 h-4 sm:w-5 sm:h-5 rounded-full object-cover border border-white/20 shadow-sm flex-shrink-0" 
+                          className="w-4 h-4 sm:w-4.5 sm:h-4.5 rounded-full object-cover border border-white/20 shadow-sm flex-shrink-0" 
                         />
-                        <span className="hidden xl:inline-block text-[10px] sm:text-xs font-bold text-white uppercase tracking-wider font-outfit whitespace-nowrap flex-shrink-0">
-                          {nextMatch.homeTeam.name}
-                        </span>
-                        <span className="hidden sm:inline-block xl:hidden text-[10px] font-bold text-white uppercase tracking-wider font-outfit whitespace-nowrap flex-shrink-0">
+                        <span className="text-[10px] sm:text-xs font-bold text-white uppercase tracking-wider font-outfit whitespace-nowrap flex-shrink-0">
                           {nextMatch.homeTeam.code}
                         </span>
                       </>
@@ -139,7 +134,7 @@ export default function Navbar() {
                   </div>
 
                   {/* VS Divider */}
-                  <span className="font-outfit font-black italic text-[9px] sm:text-[11px] text-white/30 tracking-widest px-1 sm:px-2 flex-shrink-0 select-none">
+                  <span className="font-outfit font-black italic text-[9px] sm:text-[10px] text-white/30 tracking-widest px-0.5 flex-shrink-0 select-none">
                     VS
                   </span>
 
@@ -147,16 +142,13 @@ export default function Navbar() {
                   <div className="flex items-center gap-1.5 flex-shrink-0">
                     {nextMatch.awayTeam ? (
                       <>
-                        <span className="hidden xl:inline-block text-[10px] sm:text-xs font-bold text-white uppercase tracking-wider font-outfit whitespace-nowrap flex-shrink-0">
-                          {nextMatch.awayTeam.name}
-                        </span>
-                        <span className="hidden sm:inline-block xl:hidden text-[10px] font-bold text-white uppercase tracking-wider font-outfit whitespace-nowrap flex-shrink-0">
+                        <span className="text-[10px] sm:text-xs font-bold text-white uppercase tracking-wider font-outfit whitespace-nowrap flex-shrink-0">
                           {nextMatch.awayTeam.code}
                         </span>
                         <img 
                           src={`https://flagcdn.com/w40/${nextMatch.awayTeam.flagCode.toLowerCase()}.png`} 
                           alt={nextMatch.awayTeam.name} 
-                          className="w-4 h-4 sm:w-5 sm:h-5 rounded-full object-cover border border-white/20 shadow-sm flex-shrink-0" 
+                          className="w-4 h-4 sm:w-4.5 sm:h-4.5 rounded-full object-cover border border-white/20 shadow-sm flex-shrink-0" 
                         />
                       </>
                     ) : (
@@ -171,7 +163,7 @@ export default function Navbar() {
                 <div className="w-px h-3.5 bg-white/20 flex-shrink-0"></div>
 
                 {/* Date / Kickoff Time */}
-                <div className="text-[8px] sm:text-[11px] font-bold tracking-wider text-[#FFD700] font-outfit uppercase whitespace-nowrap flex-shrink-0">
+                <div className="text-[8px] sm:text-[10.5px] font-bold tracking-wider text-[#FFD700] font-outfit uppercase whitespace-nowrap flex-shrink-0">
                   {new Date(nextMatch.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }).toUpperCase()} • {nextMatch.kickoffIST}
                 </div>
               </div>
