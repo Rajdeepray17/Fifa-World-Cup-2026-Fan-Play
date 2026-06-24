@@ -8,8 +8,19 @@ const MatchCard = ({ fixture, selectedNationCode, theme, onClick }) => {
   const formattedDate = matchDate.toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata', weekday: 'long', month: 'long', day: 'numeric' });
 
   // Resolve teams or placeholders
-  const home = fixture.homeTeam || { name: fixture.homeTeamPlaceholder || 'TBD', flagCode: 'un', code: 'TBD' };
-  const away = fixture.awayTeam || { name: fixture.awayTeamPlaceholder || 'TBD', flagCode: 'un', code: 'TBD' };
+  const TBD_ROUNDS = ['Round of 16', 'Quarter Final', 'Semi Final', 'Third Place', 'Final'];
+  const isTbdRound = TBD_ROUNDS.includes(fixture.round);
+
+  const home = fixture.homeTeam || { 
+    name: isTbdRound ? 'TBD' : (fixture.homeTeamPlaceholder || 'TBD'), 
+    flagCode: 'un', 
+    code: 'TBD' 
+  };
+  const away = fixture.awayTeam || { 
+    name: isTbdRound ? 'TBD' : (fixture.awayTeamPlaceholder || 'TBD'), 
+    flagCode: 'un', 
+    code: 'TBD' 
+  };
 
   // Theme highlighting
   const isHomeSelected = selectedNationCode === home.code;

@@ -100,6 +100,11 @@ const nationSchema = new mongoose.Schema(
       default: 0,
       min: 0,
     },
+    status: {
+      type: String,
+      enum: ['Active', 'Qualified', 'Eliminated'],
+      default: 'Active',
+    },
   },
   {
     timestamps: true,

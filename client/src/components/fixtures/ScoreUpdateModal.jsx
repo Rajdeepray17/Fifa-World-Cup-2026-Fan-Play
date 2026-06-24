@@ -26,8 +26,17 @@ export default function ScoreUpdateModal({ isOpen, onClose, fixture }) {
 
   if (!fixture) return null;
 
-  const home = fixture.homeTeam || { name: fixture.homeTeamPlaceholder || 'TBD', flagCode: 'un' };
-  const away = fixture.awayTeam || { name: fixture.awayTeamPlaceholder || 'TBD', flagCode: 'un' };
+  const TBD_ROUNDS = ['Round of 16', 'Quarter Final', 'Semi Final', 'Third Place', 'Final'];
+  const isTbdRound = TBD_ROUNDS.includes(fixture.round);
+
+  const home = fixture.homeTeam || { 
+    name: isTbdRound ? 'TBD' : (fixture.homeTeamPlaceholder || 'TBD'), 
+    flagCode: 'un' 
+  };
+  const away = fixture.awayTeam || { 
+    name: isTbdRound ? 'TBD' : (fixture.awayTeamPlaceholder || 'TBD'), 
+    flagCode: 'un' 
+  };
 
   // Knockout check
   const isKnockout = fixture.round !== 'Group Stage';

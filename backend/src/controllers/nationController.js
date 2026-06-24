@@ -63,3 +63,40 @@ export async function getNationByCode(req, res, next) {
     next(error);
   }
 }
+
+/**
+ * @route   PUT /api/nations/:id/status
+ * @desc    Update nation qualification/elimination status (Admin only)
+ */
+export async function updateNationStatus(req, res, next) {
+  try {
+    const adminPin = req.headers['x-admin-pin'];
+    if (adminPin !== 'BRAZIL0407') {
+      res.status(401);
+      throw new Error('Unauthorized: Invalid Admin PIN');
+    }
+
+    const nation = await Nation.findById(req.params.id);
+    if (!nation) {
+      res.status(404);
+      throw new Error('Nation not found');
+    }
+
+    const { status } = req.body;
+    if (!status || !['Active', 'Qualified', 'Eliminated'].includes(status)) {
+      res.status(400);
+      throw new Error('Invalid status value. Must be Active, Qualified, or Eliminated');
+    }
+
+    nation.status = status;
+    await nation.save();
+
+    res.json({
+      success: true,
+      message: 'Nation status updated successfully',
+      data: nation,
+    });
+  } catch (error) {
+    next(error);
+  }
+}

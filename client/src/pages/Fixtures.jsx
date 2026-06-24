@@ -66,9 +66,14 @@ const Fixtures = () => {
     // Filter by Search Query (Nation name or group)
     if (searchQuery.trim() !== '') {
       const q = searchQuery.toLowerCase();
+      const TBD_ROUNDS = ['Round of 16', 'Quarter Final', 'Semi Final', 'Third Place', 'Final'];
       result = result.filter(f => {
-        const homeMatch = f.homeTeam?.name?.toLowerCase().includes(q) || f.homeTeamPlaceholder?.toLowerCase().includes(q);
-        const awayMatch = f.awayTeam?.name?.toLowerCase().includes(q) || f.awayTeamPlaceholder?.toLowerCase().includes(q);
+        const isTbdRound = TBD_ROUNDS.includes(f.round);
+        const homeName = f.homeTeam?.name || (isTbdRound ? 'TBD' : f.homeTeamPlaceholder) || 'TBD';
+        const awayName = f.awayTeam?.name || (isTbdRound ? 'TBD' : f.awayTeamPlaceholder) || 'TBD';
+
+        const homeMatch = homeName.toLowerCase().includes(q);
+        const awayMatch = awayName.toLowerCase().includes(q);
         const groupMatch = f.group?.toLowerCase() === q.replace('group ', '');
         const stadiumMatch = f.stadium?.name?.toLowerCase().includes(q) || f.stadium?.city?.toLowerCase().includes(q);
         const roundMatch = f.round?.toLowerCase().includes(q);

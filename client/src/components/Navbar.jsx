@@ -52,6 +52,8 @@ export default function Navbar() {
   }, []);
 
   const nextMatch = fixtures.find(f => new Date(f.date) > currentTime);
+  const TBD_ROUNDS = ['Round of 16', 'Quarter Final', 'Semi Final', 'Third Place', 'Final'];
+  const isTbdRound = nextMatch && TBD_ROUNDS.includes(nextMatch.round);
 
   const isHidden = scrollDir === 'down';
 
@@ -128,7 +130,7 @@ export default function Navbar() {
                       </>
                     ) : (
                       <span className="text-[9px] sm:text-[10px] font-bold text-white/60 tracking-wider whitespace-nowrap flex-shrink-0">
-                        {nextMatch.homeTeamPlaceholder || nextMatch.homePlaceholder || 'TBD'}
+                        {isTbdRound ? 'TBD' : (nextMatch.homeTeamPlaceholder || nextMatch.homePlaceholder || 'TBD')}
                       </span>
                     )}
                   </div>
@@ -153,7 +155,7 @@ export default function Navbar() {
                       </>
                     ) : (
                       <span className="text-[9px] sm:text-[10px] font-bold text-white/60 tracking-wider whitespace-nowrap flex-shrink-0">
-                        {nextMatch.awayTeamPlaceholder || nextMatch.awayPlaceholder || 'TBD'}
+                        {isTbdRound ? 'TBD' : (nextMatch.awayTeamPlaceholder || nextMatch.awayPlaceholder || 'TBD')}
                       </span>
                     )}
                   </div>
