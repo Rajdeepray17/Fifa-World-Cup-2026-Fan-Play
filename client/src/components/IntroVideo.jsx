@@ -32,9 +32,13 @@ const IntroVideo = forwardRef(function IntroVideo({ onVideoEnd, isVisible = true
     },
     skip: () => {
       const video = videoRef.current;
-      if (!video) return;
-      // Seek to the end of the video
-      video.currentTime = video.duration || 999;
+      if (video) {
+        try {
+          video.pause();
+        } catch (e) {}
+      }
+      setHasEnded(true);
+      if (onVideoEnd) onVideoEnd();
     },
   }));
 
