@@ -13,7 +13,7 @@ app.use(express.json({ limit: '10mb' }));
 
 /* Health check */
 app.get('/api/health', (_req, res) => {
-  res.json({ status: 'ok', service: 'fifa-world-cup-2026-api', version: '2.0.0' });
+  res.json({ status: 'ok', service: 'fifa-world-cup-2026-api', version: '2.0.1' });
 });
 
 /* API Routes */
