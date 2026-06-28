@@ -1,5 +1,6 @@
 import Nation from '../models/Nation.js';
 import ApiFeatures from '../utils/apiFeatures.js';
+import { syncOfficialBracket } from './fixtureController.js';
 
 /**
  * @route   GET /api/nations
@@ -90,6 +91,9 @@ export async function updateNationStatus(req, res, next) {
 
     nation.status = status;
     await nation.save();
+
+    // Trigger bracket sync
+    await syncOfficialBracket();
 
     res.json({
       success: true,

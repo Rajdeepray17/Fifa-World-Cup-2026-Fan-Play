@@ -23,6 +23,7 @@ const Activity = lazy(() => import('./pages/Activity'));
 const BracketPredictor = lazy(() => import('./pages/BracketPredictor'));
 const SquadBuilder = lazy(() => import('./pages/SquadBuilder'));
 const TriviaGame = lazy(() => import('./pages/TriviaGame'));
+const Bracket = lazy(() => import('./pages/Bracket'));
 
 /**
  * AppInner — The actual app layout, placed inside ThemeProvider
@@ -56,6 +57,7 @@ function AppInner() {
               <Route path="/activity/bracket" element={<BracketPredictor />} />
               <Route path="/activity/squad-builder" element={<SquadBuilder />} />
               <Route path="/activity/trivia" element={<TriviaGame />} />
+              <Route path="/bracket" element={<Bracket />} />
               <Route path="/groups" element={<Groups />} />
               <Route path="/fixtures" element={<Fixtures />} />
               <Route path="/memories" element={<Memories />} />

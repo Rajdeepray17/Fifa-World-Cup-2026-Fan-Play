@@ -28,6 +28,7 @@ export default function Navbar() {
   const { selectedNation } = useTheme();
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [fixturesDropdownOpen, setFixturesDropdownOpen] = useState(false);
   const [fixtures, setFixtures] = useState([]);
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -175,6 +176,67 @@ export default function Navbar() {
           {/* Desktop nav links (Right side on desktop) */}
           <div className="hidden md:flex items-center gap-1">
             {navItems.map((item) => {
+              if (item.label === 'Fixtures') {
+                const isFixturesActive = location.pathname === '/fixtures' || location.pathname === '/bracket';
+                return (
+                  <div
+                    key={item.path}
+                    className="relative"
+                    onMouseEnter={() => setFixturesDropdownOpen(true)}
+                    onMouseLeave={() => setFixturesDropdownOpen(false)}
+                  >
+                    <button
+                      type="button"
+                      className={`relative px-3 py-2 text-sm font-accent tracking-wide transition-colors duration-200 rounded-lg flex items-center gap-1 cursor-default
+                        ${isFixturesActive ? 'text-white' : 'text-white/60 hover:text-white/90'}
+                      `}
+                    >
+                      {item.label}
+                      <svg xmlns="http://www.w3.org/2000/svg" className={`h-3.5 w-3.5 transition-transform duration-200 ${fixturesDropdownOpen ? 'rotate-180 text-white' : 'text-white/60'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                      </svg>
+                      {isFixturesActive && (
+                        <motion.div
+                          layoutId="nav-indicator"
+                          className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-4 h-[2px] rounded-full"
+                          style={{ background: 'var(--theme-primary)' }}
+                          transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                        />
+                      )}
+                    </button>
+
+                    <AnimatePresence>
+                      {fixturesDropdownOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                          transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                          className="absolute top-full left-1/2 -translate-x-1/2 mt-1.5 w-40 bg-[#151515]/95 border border-white/10 rounded-xl shadow-2xl py-2 backdrop-blur-md z-[70] overflow-hidden"
+                        >
+                          <Link
+                            to="/fixtures"
+                            className={`block px-4 py-2 text-xs font-accent tracking-wider uppercase hover:bg-white/5 hover:text-white transition-colors text-left
+                              ${location.pathname === '/fixtures' ? 'text-white bg-white/5 font-bold' : 'text-white/60'}
+                            `}
+                          >
+                            Fixtures
+                          </Link>
+                          <Link
+                            to="/bracket"
+                            className={`block px-4 py-2 text-xs font-accent tracking-wider uppercase hover:bg-white/5 hover:text-white transition-colors text-left
+                              ${location.pathname === '/bracket' ? 'text-white bg-white/5 font-bold' : 'text-white/60'}
+                            `}
+                          >
+                            Bracket
+                          </Link>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              }
+
               const isActive = location.pathname === item.path;
               return (
                 <Link
@@ -215,7 +277,16 @@ export default function Navbar() {
       <MobileMenu
         isOpen={mobileOpen}
         onClose={() => setMobileOpen(false)}
-        navItems={navItems}
+        navItems={(() => {
+          const mobileNavItems = [];
+          navItems.forEach(item => {
+            mobileNavItems.push(item);
+            if (item.label === 'Fixtures') {
+              mobileNavItems.push({ label: 'Bracket', path: '/bracket' });
+            }
+          });
+          return mobileNavItems;
+        })()}
       />
     </>
   );
