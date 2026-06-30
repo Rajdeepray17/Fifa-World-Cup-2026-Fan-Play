@@ -192,38 +192,63 @@ const Bracket = () => {
           <div className="flex justify-between items-center min-w-[1400px] h-full gap-2">
             
             {/* LEFT BRANCH (R32 -> R16 -> QF -> SF) */}
-            <div className="flex flex-row space-x-6 items-center">
-              {/* R32 */}
-              <div className="flex flex-col justify-around h-[820px]">
-                {leftR32.map((match, i) => (
-                  <BracketMatchCard key={match?.id || i} match={match} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
-                ))}
-              </div>
+            <div className="flex flex-row items-center gap-x-8">
+              <div className="flex flex-row items-center gap-x-8">
+                <div className="flex flex-col gap-y-16">
+                  
+                  {/* QF-1 Branch */}
+                  <div className="flex flex-row items-center gap-x-8">
+                    <div className="flex flex-col gap-y-8">
+                      {/* R16-2 Branch */}
+                      <div className="flex flex-row items-center gap-x-8">
+                        <div className="flex flex-col">
+                          <BracketMatchCard match={leftR32[0]} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
+                          <BracketMatchCard match={leftR32[1]} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
+                        </div>
+                        <BracketMatchCard match={leftR16[0]} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
+                      </div>
+                      {/* R16-1 Branch */}
+                      <div className="flex flex-row items-center gap-x-8">
+                        <div className="flex flex-col">
+                          <BracketMatchCard match={leftR32[2]} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
+                          <BracketMatchCard match={leftR32[3]} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
+                        </div>
+                        <BracketMatchCard match={leftR16[1]} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
+                      </div>
+                    </div>
+                    <BracketMatchCard match={leftQF[0]} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
+                  </div>
 
-              {/* R16 */}
-              <div className="flex flex-col justify-around h-[820px] py-8">
-                {leftR16.map((match, i) => (
-                  <BracketMatchCard key={match?.id || i} match={match} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
-                ))}
-              </div>
+                  {/* QF-2 Branch */}
+                  <div className="flex flex-row items-center gap-x-8">
+                    <div className="flex flex-col gap-y-8">
+                      {/* R16-3 Branch */}
+                      <div className="flex flex-row items-center gap-x-8">
+                        <div className="flex flex-col">
+                          <BracketMatchCard match={leftR32[4]} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
+                          <BracketMatchCard match={leftR32[5]} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
+                        </div>
+                        <BracketMatchCard match={leftR16[2]} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
+                      </div>
+                      {/* R16-4 Branch */}
+                      <div className="flex flex-row items-center gap-x-8">
+                        <div className="flex flex-col">
+                          <BracketMatchCard match={leftR32[6]} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
+                          <BracketMatchCard match={leftR32[7]} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
+                        </div>
+                        <BracketMatchCard match={leftR16[3]} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
+                      </div>
+                    </div>
+                    <BracketMatchCard match={leftQF[1]} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
+                  </div>
 
-              {/* QF */}
-              <div className="flex flex-col justify-around h-[820px] py-24">
-                {leftQF.map((match, i) => (
-                  <BracketMatchCard key={match?.id || i} match={match} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
-                ))}
-              </div>
-
-              {/* SF */}
-              <div className="flex flex-col justify-around h-[820px] py-48">
-                {leftSF.map((match, i) => (
-                  <BracketMatchCard key={match?.id || i} match={match} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
-                ))}
+                </div>
+                <BracketMatchCard match={leftSF[0]} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
               </div>
             </div>
 
             {/* CENTER PIECE (Podium + Cup + Final + 3rd Place) */}
-            <div className="flex flex-col items-center justify-between w-[320px] h-[820px] py-4 bg-white/[0.01] rounded-2xl border border-white/5 relative">
+            <div className="flex flex-col items-center justify-between w-[320px] min-h-[820px] py-4 bg-white/[0.01] rounded-2xl border border-white/5 relative">
               
               {/* Trophy Podium Row */}
               <div className="flex flex-col items-center w-full">
@@ -322,33 +347,61 @@ const Bracket = () => {
             </div>
 
             {/* RIGHT BRANCH (SF <- QF <- R16 <- R32) */}
-            <div className="flex flex-row space-x-6 items-center">
-              {/* SF */}
-              <div className="flex flex-col justify-around h-[820px] py-48">
-                {rightSF.map((match, i) => (
-                  <BracketMatchCard key={match?.id || i} match={match} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
-                ))}
-              </div>
+            <div className="flex flex-row items-center gap-x-8">
+              <div className="flex flex-row items-center gap-x-8">
+                <BracketMatchCard match={rightSF[0]} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
+                
+                <div className="flex flex-col gap-y-16">
+                  
+                  {/* QF-3 Branch */}
+                  <div className="flex flex-row items-center gap-x-8">
+                    <BracketMatchCard match={rightQF[0]} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
+                    
+                    <div className="flex flex-col gap-y-8">
+                      {/* R16-5 Branch */}
+                      <div className="flex flex-row items-center gap-x-8">
+                        <BracketMatchCard match={rightR16[0]} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
+                        <div className="flex flex-col">
+                          <BracketMatchCard match={rightR32[0]} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
+                          <BracketMatchCard match={rightR32[1]} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
+                        </div>
+                      </div>
+                      {/* R16-6 Branch */}
+                      <div className="flex flex-row items-center gap-x-8">
+                        <BracketMatchCard match={rightR16[1]} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
+                        <div className="flex flex-col">
+                          <BracketMatchCard match={rightR32[2]} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
+                          <BracketMatchCard match={rightR32[3]} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-              {/* QF */}
-              <div className="flex flex-col justify-around h-[820px] py-24">
-                {rightQF.map((match, i) => (
-                  <BracketMatchCard key={match?.id || i} match={match} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
-                ))}
-              </div>
+                  {/* QF-4 Branch */}
+                  <div className="flex flex-row items-center gap-x-8">
+                    <BracketMatchCard match={rightQF[1]} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
+                    
+                    <div className="flex flex-col gap-y-8">
+                      {/* R16-7 Branch */}
+                      <div className="flex flex-row items-center gap-x-8">
+                        <BracketMatchCard match={rightR16[2]} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
+                        <div className="flex flex-col">
+                          <BracketMatchCard match={rightR32[4]} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
+                          <BracketMatchCard match={rightR32[5]} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
+                        </div>
+                      </div>
+                      {/* R16-8 Branch */}
+                      <div className="flex flex-row items-center gap-x-8">
+                        <BracketMatchCard match={rightR16[3]} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
+                        <div className="flex flex-col">
+                          <BracketMatchCard match={rightR32[6]} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
+                          <BracketMatchCard match={rightR32[7]} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-              {/* R16 */}
-              <div className="flex flex-col justify-around h-[820px] py-8">
-                {rightR16.map((match, i) => (
-                  <BracketMatchCard key={match?.id || i} match={match} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
-                ))}
-              </div>
-
-              {/* R32 */}
-              <div className="flex flex-col justify-around h-[820px]">
-                {rightR32.map((match, i) => (
-                  <BracketMatchCard key={match?.id || i} match={match} onMatchClick={handleMatchClick} isAdmin={isAdmin} />
-                ))}
+                </div>
               </div>
             </div>
 
