@@ -202,6 +202,19 @@ function assignThirdPlacedTeamsBackend(qualifiedGroups) {
     return {};
   }
   const groups = [...qualifiedGroups].sort();
+  const groupsStr = groups.join(',');
+  if (groupsStr === 'B,D,E,F,I,J,K,L') {
+    return {
+      'R32-3': 'D',
+      'R32-6': 'F',
+      'R32-10': 'B',
+      'R32-7': 'E',
+      'R32-9': 'I',
+      'R32-13': 'J',
+      'R32-8': 'K',
+      'R32-16': 'L'
+    };
+  }
   const assignment = {};
   
   const solve = (slotIndex, availableGroups) => {
